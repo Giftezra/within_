@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:gravity="center"
+    android:id="@+id/dialpad_layout">
+
+
+    <!--Layout hold the text view for the layout title-->
+    <androidx.appcompat.widget.Toolbar
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:title="Dial Pad"
+        android:id="@+id/dialpad_toolbar"
+        android:gravity="center_horizontal"/>
+
+    <LinearLayout
+        android:id="@+id/favourites_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:padding="10dp"
+        android:layout_below="@+id/dialpad_toolbar">
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_weight="0.5"
+            android:layout_height="wrap_content"
+            android:text="Favourites"
+            android:id="@+id/favourites"
+            android:textStyle="bold"
+            android:textSize="20sp"
+            android:layout_marginStart="5dp" />
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_favourites"
+            android:layout_marginEnd="5dp"
+            android:padding="5dp"
+            android:layout_marginTop="5dp"/>
+
+    </LinearLayout>
+
+    <ListView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/favourite_list"
+        android:padding="5dp"
+        android:layout_below="@+id/favourites_layout" />
+
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/message_fab"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_above="@+id/dialpad_fab"
+        android:layout_margin="10dp"
+        android:contentDescription="Dial pad float button"
+        android:src="@drawable/ic_chat_us"
+        android:layout_marginBottom="20dp"/>
+
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/dialpad_fab"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentBottom="true"
+        android:layout_margin="10dp"
+        android:contentDescription="Dial pad float button"
+        android:src="@drawable/ic_dialpad" />
+
+</RelativeLayout>

@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".recent.app_recent.RecentFragment"
+    android:id="@+id/main_recent_layout">
+
+    <!--This switch button is meant to switch between the recent call log for twilio phone number and
+    the recent call log for the users phone call log. -->
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/recent"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        app:title="Recent"
+        app:titleTextColor="@color/black"/>
+
+    <!--    The linear layout holds the recycler view for both the recent call log of
+        for twilio incoming calls and the recent recyler for the users phone call log-->
+    <com.google.android.material.materialswitch.MaterialSwitch
+        android:id="@+id/recent_type"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/recent"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="2dp"
+        app:showText="true"
+        app:track="@drawable/track"
+        android:thumb="@drawable/thumb"
+        android:contentDescription="@string/switch_call_log"
+        android:textOff="@string/app_log"
+        android:textOn="@string/phone_log" />
+
+    <LinearLayout
+        android:id="@+id/recent_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:orientation="vertical"
+        android:layout_below="@+id/recent_type">
+
+        <!-- Recent RecyclerView -->
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recent_recycler_view"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_alignParentBottom="true"
+            android:padding="10dp"
+            android:divider="@color/supplementaryColor"
+            android:dividerHeight="2dp"/>
+
+
+        <!-- Recent RecyclerView -->
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/incall_recent_recycler"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_alignParentBottom="true"
+            android:padding="10dp"
+            android:divider="@color/supplementaryColor"
+            android:dividerHeight="2dp"
+            android:visibility="gone"/>
+
+    </LinearLayout>
+
+    <ProgressBar
+        android:id="@+id/phone_recent_progress"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:visibility="gone"/>
+
+</RelativeLayout>

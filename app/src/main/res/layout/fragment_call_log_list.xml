@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/call_log_toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        app:title="@string/first_name"
+        app:subtitle="@string/phone_number"
+        android:gravity="center"
+        app:contentInsetEnd="0dp"
+        app:contentInsetStart="0dp"
+        app:menu="@menu/manage_sim" />
+
+
+
+    <ListView
+        android:id="@+id/call_log_list"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:divider="@color/supplementaryColor"
+        android:layout_below="@+id/call_log_toolbar"
+        android:layout_marginTop="50dp"/>
+
+
+</RelativeLayout>

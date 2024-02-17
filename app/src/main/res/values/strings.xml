@@ -1,0 +1,116 @@
+<resources>
+    <string name="app_name">Within</string>
+    <string name="password_error">Password must be > 8 digit, contain an upper and lowercase alphabets</string>
+    <string name="passwor_not_match">Password does not match</string>
+    <string name="first_name">First Name</string>
+    <string name="last_name">Last Name</string>
+    <string name="email">Email</string>
+    <string name="password">Password</string>
+    <string name="confirm_password">Confirm Password</string>
+    <string name="register">Create Account</string>
+    <string name="welcome">Welcome back</string>
+    <string name="landing_message">
+        Hello welcome to within, your best app for every day phone calls.
+        \n
+        Make calls for as low as 6 naira per minutes
+    </string>
+    <string name="forgotten_text">Enter the registered email to have the verification link sent to you</string>
+    <string name="login">Login</string>
+    <string name="phone_number">Phone Number</string>
+    <string name="forgotten_password">Forgotten password?</string>
+    <string name="sign_in">Sign In</string>
+    <string name="login_with_password">Login with Password</string>
+    <string name="profile">Profile</string>
+    <string name="contact">Contact</string>
+    <string name="duration">00:30</string>
+    <string name="dail_recent_contact">dail recent contact</string>
+    <string name="invalid_user"> Apologise!! we could not find your data on the system. please join us today to enjoy cheap call
+        all across the world
+    </string>
+    <string name="top_up">Top up balance once balance is below 1 (Gbp)</string>
+    <string name="home">Home</string>
+    <string name="recent">Recent</string>
+    <string name="dialpad">DialPad</string>
+    <string name="contacts">Contacts</string>
+    <string name="dial">Dial</string>
+    <string name="audio_device">Audio Device</string>
+    <string name="callee">client identity or phone number</string>
+    <string name="answer">Answer</string>
+    <string name="decline">Decline</string>
+    <string name="connection_service_name">Twilio Voice</string>
+    <string name="callHint">Dial a client name or phone number. Leaving the field empty results in an automated response.</string>
+    <string name="select_device">Select Audio Device</string>
+    <string name="accept_call_button">accept call button</string>
+    <string name="buy_a_virtual_sim">Buy a virtual sim</string>
+    <string name="preference">Preference</string>
+    <string name="edit_profile">Edit Profile</string>
+    <string name="notifications">Notifications</string>
+    <string name="manage_sim">Manage sim</string>
+    <string name="contact_us">Contact us</string>
+    <string name="terms_and_conditions">Terms and conditions</string>
+    <string name="update_user_profile">Profile</string>
+    <string name="dark_theme">Dark theme</string>
+    <string name="light_theme">Light theme</string>
+    <string name="change_passwords">Change passwords</string>
+    <string name="update_bio">Update Bio</string>
+    <string name="change_number">Change Mobile</string>
+    <string name="upload_docs">Upload Documents</string>
+    <string name="permissions">Permissions</string>
+    <string name="location_permission">Location permission</string>
+    <string name="notification_permission">Notification permission</string>
+    <string name="open_drawer">Open drawer</string>
+    <string name="close_drawer">Close Drawer</string>
+    <string name="make_it_your_own">Make it your own</string>
+    <string name="terms_of_service">Our terms of service</string>
+    <string name="chat_us">Chat us</string>
+    <string name="reach_us">Reach us</string>
+    <string name="update_profile">Update profile</string>
+    <string name="verify_email">Verify email</string>
+    <string name="upload_image">Upload image</string>
+    <string name="upload_identity_card">Upload identity card</string>
+    <string name="upload_billing_address">Upload billing address</string>
+    <string name="upload_business_docs">Upload documents for a business</string>
+    <string name="cac">Certificate of incorporation</string>
+    <string name="select_theme">Select theme</string>
+    <string name="permission">Allow permissions</string>
+    <string name="allow_notifications">Allow Notifications</string>
+    <string name="phone_notifications">Phone notifications</string>
+    <string name="sms_notification">Sms notification</string>
+    <string name="call_notification">Call Notification</string>
+    <string name="user_information">User information</string>
+    <string name="billing_address">Billing address</string>
+    <string name="street">Street</string>
+    <string name="order_card_info">Order and card info</string>
+    <string name="sim_request">sim request</string>
+    <string name="order_id">Order id</string>
+    <string name="order_info">Order info</string>
+    <string name="active">Active</string>
+    <string name="sim_status">Sim status</string>
+    <string name="pending">Pending</string>
+    <string name="copy_number">Copy number</string>
+    <string name="block_number">Block number</string>
+    <string name="delete_number">Delete number</string>
+    <string name="edit_number">Edit number</string>
+    <string name="all_users_calls">All calls with</string>
+    <string name="send_message">Send message</string>
+    <string name="enter_messages">Enter messages</string>
+    <string name="star">Star</string>
+    <string name="details">Details</string>
+    <string name="call">Call</string>
+    <string name="phone_log">Phone Log</string>
+    <string name="switch_call_log">Switch call log</string>
+    <string name="app_log">App log</string>
+    <string name="end_call">End call\n</string>
+    <string name="send_credit_to_user">send credit to user</string>
+
+
+    <!-- res/values/strings.xml -->
+    <string-array name="spinner_items">
+            <item>+234</item>
+            <item>+1</item>
+            <item>+44</item>
+            <item>+233</item>
+            <!-- Add more items as needed -->
+    </string-array>
+
+</resources>

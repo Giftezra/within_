@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <item android:title="@string/allow_notifications">
+        <menu>
+            <group android:checkableBehavior="single">
+                <item android:title="@string/phone_notifications"
+                    android:id="@+id/phone_notification"
+                    android:enabled="true"
+                    app:actionViewClass="com.google.android.material.switchmaterial.SwitchMaterial"
+                    android:contentDescription="@string/phone_notifications"
+                    android:icon="@drawable/ic_phone_notify"
+                    app:showAsAction="ifRoom"/>
+
+                <item android:title="@string/sms_notification"
+                    android:id="@+id/sms_notification"
+                    android:enabled="true"
+                    app:actionViewClass="com.google.android.material.switchmaterial.SwitchMaterial"
+                    android:contentDescription="@string/phone_notifications"
+                    android:icon="@drawable/ic_sms_notify"
+                    app:showAsAction="ifRoom"/>
+
+                <item android:title= "@string/call_notification"
+                    android:id="@+id/call_notification"
+                    android:enabled="true"
+                    app:actionViewClass="com.google.android.material.switchmaterial.SwitchMaterial"
+                    android:contentDescription="@string/phone_notifications"
+                    android:icon="@drawable/ic_phone"
+                    app:showAsAction="ifRoom"/>
+            </group>
+
+        </menu>
+
+    </item>
+
+</menu>

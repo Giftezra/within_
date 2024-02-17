@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:title="@string/user_information">
+        <menu>
+            <item android:title="@string/stripe_address_label_full_name"
+                android:id="@+id/user_fullname"
+                android:icon="@drawable/ic_person"/>
+
+            <item android:title="@string/billing_address">
+                <menu>
+                    <item android:title="@string/street"
+                        android:id="@+id/street"/>
+
+                </menu>
+
+            </item>
+        </menu>
+    </item>
+
+    <!--This is the item holder for the sim management part that contains the sim
+    order status and order information-->
+    <item android:title="@string/order_card_info">
+        <menu>
+            <item android:title="@string/order_id"
+                android:contentDescription="@string/order_id"
+                android:id="@+id/order_id"/>
+
+            <item android:title="@string/order_info"
+                android:contentDescription="@string/order_info"
+                android:id="@+id/order_info"/>
+        </menu>
+
+    </item>
+
+    <item android:title="@string/sim_status">
+        <menu>
+            <item android:title="@string/active"
+                android:contentDescription="@string/active"
+                android:checkable="true"
+                android:id="@+id/sim_active"
+                android:checked="true"/>
+
+            <item android:title="@string/pending"
+                android:contentDescription="@string/pending"
+                android:checkable="true"
+                android:id="@+id/sim_pending"
+                android:checked="true"/>
+        </menu>
+    </item>
+
+</menu>

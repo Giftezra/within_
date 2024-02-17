@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Creates a set pf selectors that listens to the button state and sets
+the appropriate shapes for seperate state. the selector uses the defined state for both
+light and dark mode-->
+<selector xmlns:android="http://schemas.android.com/apk/res/android">
+    <!--State when button is pressed-->
+    <item android:state_pressed="true">
+        <shape android:shape="rectangle">
+            <corners android:radius="10dp"/>
+            <gradient android:centerColor="@color/green"/>
+            <gradient android:endColor="@color/black"/>
+            <gradient android:startColor="@color/secondaryColor"/>
+            <solid android:color="@color/secondaryColor"/>
+        </shape>
+    </item>
+    <!--State when button is held down on focused-->
+    <item android:state_focused="true">
+        <shape android:shape="rectangle">
+            <corners android:radius="10dp"/>
+            <padding android:top="2dp"/>
+            <solid android:color="@color/white"/>
+        </shape>
+    </item>
+    <!--Standard state before button is pressed-->
+    <item>
+        <shape android:shape="rectangle">
+            <corners android:radius="5dp"/>
+            <solid android:color="@color/supplementaryColor"/>
+            <size android:width="@dimen/button_width"/>
+            <size android:height="@dimen/button_height"/>
+        </shape>
+    </item>
+</selector>

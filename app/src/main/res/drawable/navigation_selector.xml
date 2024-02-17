@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<selector xmlns:android="http://schemas.android.com/apk/res/android">
+    <!-- This selector is for the navigation view when pressed when focused and when
+    and when activated-->
+    <item android:state_pressed="true">
+        <color android:color="@color/secondaryColor"/>
+        <shape android:shape="oval"/>
+    </item>
+    <item android:state_selected="true">
+        <color android:color="@color/primaryColor"/>
+        <shape android:shape="oval"/>
+    </item>
+    <item android:state_focused="true">
+        <color android:color="@color/primaryColor"/>
+        <shape android:shape="oval"/>
+    </item>
+
+</selector>

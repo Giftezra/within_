@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<selector xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:state_selected="true">
+        <shape android:shape="oval">
+            <solid android:color="@color/supplementaryColor"/> <!-- Background color when pressed -->
+            <size android:width="60dp" android:height="60dp"/> <!-- Set the size as per your requirement -->
+        </shape>
+    </item>
+
+    <item>
+        <shape android:shape="oval">
+            <solid android:color="@color/transparent"/> <!-- Default background color -->
+            <size android:width="60dp" android:height="60dp"/> <!-- Set the size as per your requirement -->
+        </shape>
+    </item>
+
+</selector>

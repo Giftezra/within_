@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item android:title="@string/update_profile">
+        <menu>
+            <item android:id="@+id/update_profile"
+                android:title="@string/update_bio"
+                android:icon="@drawable/ic_person"
+                android:contentDescription="@string/update_bio"/>
+
+            <item android:id="@+id/change_password"
+                android:title="@string/change_passwords"
+                android:icon="@drawable/ic_change_password"
+                android:contentDescription="@string/change_passwords"/>
+
+            <item android:id="@+id/change_number"
+                android:title="@string/change_number"
+                android:icon="@drawable/ic_number"
+                android:contentDescription="@string/change_number"/>
+        </menu>
+    </item>
+
+    <!--This point of the menu is for individuals who are buying a sim they can use for regular
+    purposes like call, sms and video calls and conferencing-->
+    <item android:title="@string/upload_docs">
+        <menu>
+            <item android:title="@string/verify_email"
+                android:icon="@drawable/ic_email"
+                android:contentDescription="@string/upload_docs"
+                android:id="@+id/verify_email"/>
+
+            <item android:id="@+id/upload_image"
+                android:icon="@drawable/ic_camera"
+                android:title="@string/upload_image"
+                android:contentDescription="@string/upload_image"/>
+
+            <item android:title="@string/upload_identity_card"
+                android:contentDescription="@string/upload_identity_card"
+                android:icon="@drawable/stripe_ic_card_visa"
+                android:id="@+id/upload_id"/>
+
+            <item android:title="@string/upload_billing_address"
+                android:contentDescription="@string/upload_billing_address"
+                android:icon="@drawable/ic_address"
+                android:id="@+id/upload_billing"/>
+
+            <!--This point would require the user to upload their business profile
+            if the want to buy a sim they would use for business purposes
+            -->
+
+            <item android:title="@string/upload_business_docs">
+                <menu>
+                    <item android:title="@string/cac"
+                        android:id="@+id/cac"
+                        android:contentDescription="@string/cac"
+                        android:icon="@drawable/ic_business"/>
+
+                </menu>
+            </item>
+
+
+        </menu>
+    </item>
+
+
+
+
+</menu>

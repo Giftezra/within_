@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context=".initials.WelcomeActivity">
+
+    <ImageView
+        android:id="@+id/welcome_logo"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:src="@mipmap/ic_launcher_foreground" />
+
+    <TextView
+        android:id="@+id/welcome_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/welcome_logo"
+        android:layout_centerInParent="true"
+        android:padding="10dp"/>
+
+    <Button
+        android:id="@+id/login_using_bio"
+        style="@style/Widget.Material3.Button.ElevatedButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/welcome_text"
+        android:layout_centerInParent="true"
+        android:layout_marginTop="50dp"
+        android:text="Login using biometrics"
+        android:padding="10dp"/>
+
+    <Button
+        android:id="@+id/log_out"
+        style="@style/Widget.Material3.Button.TextButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/login_using_bio"
+        android:layout_centerInParent="true"
+        android:layout_marginTop="10dp"
+        android:padding="10dp"
+        android:text="Click to sign-out" />
+
+
+
+</RelativeLayout>

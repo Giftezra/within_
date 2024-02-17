@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--This resource handles the dimensions of fields to be resized based on the dimension of their parent container-->
+<resources>
+    <dimen name="side_navigation_width" type="id">250dp</dimen><!--Sets the dimension of the homepage (side navigation) to 250dp-->
+    <dimen name="text_size_small">15sp</dimen>
+    <dimen name="text_size_bold">20sp</dimen>
+    <dimen name="button_width">100dp</dimen>
+    <dimen name="button_height">50dp</dimen>
+    <dimen name="button_text">15sp</dimen>
+    <dimen name="recycler_margin">40dp</dimen>
+    <dimen name="bottom_view">200dp</dimen>
+</resources>

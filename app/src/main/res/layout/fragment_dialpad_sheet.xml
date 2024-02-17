@@ -1,0 +1,207 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:id="@+id/numbers_entered"
+        android:layout_alignParentTop="true">
+
+        <EditText
+            android:id="@+id/entered_numbers"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:padding="20dp"
+            android:hint="+"
+            style="@style/Widget.Material3.TextInputEditText.FilledBox.Dense"
+            android:textSize="@dimen/text_size_bold"
+            android:textStyle="bold"/>
+
+        <ImageView
+            android:layout_width="0dp"
+            android:layout_weight="0.2"
+            android:layout_height="wrap_content"
+            android:id="@+id/delete_numbers"
+            android:src="@drawable/ic_backspace"
+            android:layout_gravity="center_vertical" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/dialpad_numbers"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="5dp"
+        android:layout_below="@+id/numbers_entered"
+        android:layout_centerInParent="true">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="horizontal">
+
+            <Button
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="match_parent"
+                android:text="1"
+                style="@style/Widget.Material3.Button.OutlinedButton"
+                android:id="@+id/one"
+                android:padding="20dp"
+                android:layout_margin="2dp"/>
+
+            <Button
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="match_parent"
+                android:text="2"
+                android:id="@+id/two"
+                android:layout_margin="2dp"
+                style="@style/Widget.Material3.Button.OutlinedButton"
+                android:padding="20dp"/>
+
+            <Button
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="match_parent"
+                android:text="3"
+                style="@style/Widget.Material3.Button.OutlinedButton"
+                android:padding="20dp"
+                android:layout_margin="2dp"
+                android:id="@+id/three" />
+
+        </LinearLayout>
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="horizontal">
+
+            <Button
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="match_parent"
+                android:text="4"
+                style="@style/Widget.Material3.Button.OutlinedButton"
+                android:id="@+id/four"
+                android:padding="20dp"
+                android:layout_margin="2dp"/>
+
+            <Button
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="match_parent"
+                android:text="5"
+                style="@style/Widget.Material3.Button.OutlinedButton"
+                android:padding="20dp"
+                android:id="@+id/five"
+                android:layout_margin="2dp"/>
+
+            <Button
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="match_parent"
+                android:text="6"
+                style="@style/Widget.Material3.Button.OutlinedButton"
+                android:padding="20dp"
+                android:layout_margin="2dp"
+                android:id="@+id/six"/>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="horizontal">
+
+            <Button
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="match_parent"
+                android:text="7"
+                style="@style/Widget.Material3.Button.OutlinedButton"
+                android:padding="20dp"
+                android:id="@+id/seven"
+                android:layout_margin="2dp"/>
+
+            <Button
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="wrap_content"
+                android:text="8"
+                style="@style/Widget.Material3.Button.OutlinedButton"
+                android:padding="20dp"
+                android:id="@+id/eight"
+                android:layout_margin="2dp"/>
+
+            <Button
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="match_parent"
+                android:text="9"
+                style="@style/Widget.Material3.Button.OutlinedButton"
+                android:padding="20dp"
+                android:layout_margin="2dp"
+                android:id="@+id/nine"/>
+        </LinearLayout>
+
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="horizontal">
+
+            <Button
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="match_parent"
+                android:text="*"
+                android:layout_margin="2dp"
+                style="@style/Widget.Material3.Button.OutlinedButton"
+                android:id="@+id/axterix"/>
+
+            <Button
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="match_parent"
+                android:text="0"
+                style="@style/Widget.Material3.Button.OutlinedButton"
+                android:padding="20dp"
+                android:layout_margin="2dp"
+                android:id="@+id/zero"/>
+
+            <Button
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="match_parent"
+                android:padding="20dp"
+                android:text="#"
+                style="@style/Widget.Material3.Button.OutlinedButton"
+                android:id="@+id/hash"
+                android:layout_margin="2dp"/>
+        </LinearLayout>
+
+    </LinearLayout>
+
+
+
+    <ImageButton
+        android:id="@+id/call_button"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:contentDescription="@string/callHint"
+        android:padding="25dp"
+        android:src="@drawable/ic_phone"
+        style="@style/Widget.Material3.Button.ElevatedButton"
+        android:layout_below="@+id/dialpad_numbers"/>
+
+</RelativeLayout>

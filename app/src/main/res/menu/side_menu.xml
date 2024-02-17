@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:title="@string/make_it_your_own">
+
+        <menu>
+            <item
+                android:id="@+id/profile"
+                android:icon="@drawable/ic_person"
+                android:enabled="true"
+                android:title="@string/update_user_profile"/>
+
+            <item
+                android:id="@+id/preference_navigation"
+                android:icon="@drawable/ic_preference"
+                android:enabled="true"
+                android:title="@string/preference">
+            </item>
+
+            <item android:id="@+id/notifications"
+                android:icon="@drawable/ic_notification"
+                android:enabled="true"
+                android:title="@string/notifications"/>
+
+            <item android:id="@+id/manage_sim"
+                android:icon="@drawable/ic_sim"
+                android:enabled="true"
+                android:title="@string/manage_sim"/>
+        </menu>
+    </item>
+
+    <!--Reach us menu for the users to either chat with bots or chat with us
+    this will be implemented in later version-->
+    <item android:title="@string/reach_us">
+        <menu>
+            <item
+                android:id="@+id/contact_us"
+                android:icon="@drawable/ic_email"
+                android:enabled="true"
+                android:title="@string/contact_us"/>
+
+            <item android:title="@string/chat_us"
+                android:icon="@drawable/ic_chat_us"
+                android:enabled="true"
+                android:id="@+id/chat_us"/>
+        </menu>
+    </item>
+
+    <item android:title="@string/terms_of_service">
+        <menu>
+            <item
+                android:id="@+id/terms_condition"
+                android:icon="@drawable/ic_terms_condition"
+                android:enabled="true"
+                android:title="@string/terms_and_conditions"/>
+        </menu>
+    </item>
+
+
+
+</menu>

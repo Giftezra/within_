@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <style name="CustomScrollbarStyle">
+        <item name="android:scrollbarSize">8dp</item> <!-- Adjust the size as needed -->
+        <item name="android:scrollbarThumbVertical">@drawable/list_scroll</item>
+    </style>
+    <!--Set the style and shape of all image buttons-->
+    <style name="image_button" parent="Widget.AppCompat.ImageButton">
+        <item name="android:shape"> oval</item>
+    </style>
+    <!--Alert dialog style-->
+    <style name="MyAlertDialogStyle" parent="Theme.AppCompat.Light.Dialog.Alert">
+        <item name="android:background"> @drawable/day_dialog_background</item>
+        <item name="android:textColorPrimary">@color/red</item>
+        <item name="android:textColorSecondary">@color/secondaryColor</item>
+    </style>
+
+    <style name="MyAlertDialogStyleNight" parent="Theme.AppCompat.Dialog.Alert">
+        <item name="android:background"> @drawable/day_dialog_background</item>
+        <item name="android:textColorPrimary">@color/red</item>
+        <item name="android:textColorSecondary">@color/secondaryColor</item>
+    </style>
+    
+    <style name="recipientImage">
+        <item name="android:background"> @drawable/image_view_selector</item>
+        <item name="android:backgroundTint"> @color/supplementaryColor</item>
+    </style>
+
+    <style name="hiddenLayout">
+        <item name="background"> @drawable/hidden_layout</item>
+        <item name="backgroundColor"> @color/transparent</item>
+    </style>
+
+</resources>

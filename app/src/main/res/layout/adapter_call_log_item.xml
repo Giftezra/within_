@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal"
+    android:gravity="center">
+
+    <ImageView
+        android:id="@+id/call_type_icons"
+        android:layout_width="0dp"
+        android:layout_weight="0.2"
+        android:layout_height="wrap_content"
+        android:src="@drawable/ic_missed_calls"
+        android:layout_gravity="center"/>
+
+    <LinearLayout
+        android:layout_width="0dp"
+        android:layout_weight="1"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/call_type_text"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="@dimen/text_size_small"
+            android:hint="@string/call"/>
+
+
+        <TextView
+            android:id="@+id/call_date_time"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="01-jan 10:22"/>
+
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/call_log_duration"
+        android:layout_width="0dp"
+        android:layout_weight="0.2"
+        android:layout_height="match_parent"
+        android:hint="21mins"
+        android:gravity="center"/>
+
+
+</LinearLayout>

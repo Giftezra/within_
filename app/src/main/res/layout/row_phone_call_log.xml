@@ -1,0 +1,208 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <LinearLayout
+        android:id="@+id/reciepient_details_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <ImageView
+            android:id="@+id/initial_letter"
+            android:layout_width="0dp"
+            android:layout_weight="0.2"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_person"
+            android:padding="15dp"/>
+
+
+        <LinearLayout
+            android:id="@+id/reciepient_details"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:layout_gravity="center_vertical"
+            android:gravity="start">
+
+
+            <TextView
+                android:id="@+id/reciepient_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="@dimen/text_size_small"
+                android:textStyle="bold"/>
+
+            <TextView
+                android:id="@+id/reciepient_phone"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="@dimen/text_size_small"/>
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/call_type"
+                    android:layout_width="0dp"
+                    android:layout_weight="0.5"
+                    android:layout_height="wrap_content"
+                    android:textSize="@dimen/text_size_small"
+                    android:hint="missed"/>
+
+                <TextView
+                    android:id="@+id/call_date"
+                    android:layout_width="0dp"
+                    android:layout_weight="0.5"
+                    android:layout_height="wrap_content"
+                    android:textSize="@dimen/text_size_small"
+                    android:hint="monday" />
+
+                <TextView
+                    android:id="@+id/call_durations"
+                    android:layout_width="0dp"
+                    android:layout_weight="0.2"
+                    android:layout_height="wrap_content"
+                    android:textSize="@dimen/text_size_small"
+                    android:hint="30min 32sec" />
+            </LinearLayout>
+        </LinearLayout>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/expanded_container"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_below="@+id/reciepient_details_layout"
+        android:visibility="gone"
+        android:background="@drawable/hidden_layout">
+
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:padding="5dp"
+            android:gravity="center">
+
+
+            <ImageButton
+                android:id="@+id/phone_recent_send_sms"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:src="@drawable/ic_chat_us"
+                android:contentDescription="@string/send_message"
+                style="@style/Widget.Material3.Button.ElevatedButton.Icon"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Send sms"
+                android:textSize="@dimen/text_size_small"
+                android:layout_gravity="center_horizontal"
+                android:padding="5dp"/>
+
+        </LinearLayout>
+
+
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:padding="5dp"
+            android:gravity="center">
+
+
+            <ImageButton
+                android:id="@+id/credit_reciepient_button"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:src="@drawable/ic_send"
+                android:contentDescription="send credit to user"
+                style="@style/Widget.Material3.Button.ElevatedButton.Icon"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="credit user"
+                android:textSize="@dimen/text_size_small"
+                android:layout_gravity="center_horizontal"
+                android:padding="5dp"/>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:gravity="center">
+
+
+            <ImageButton
+                android:id="@+id/call_again"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:src="@drawable/ic_phone"
+                android:contentDescription="call reciepient again"
+                style="@style/Widget.Material3.Button.ElevatedButton.Icon"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/dial"
+                android:textSize="@dimen/text_size_small"
+                android:layout_gravity="center_horizontal"
+                android:padding="5dp"/>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:gravity="center">
+
+
+            <ImageButton
+                android:id="@+id/call_log_button"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:src="@drawable/ic_contact"
+                android:padding="5dp"
+                android:contentDescription="reciepient call log"
+                style="@style/Widget.Material3.Button.ElevatedButton.Icon"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Call log"
+                android:layout_gravity="center_horizontal"
+                android:textSize="@dimen/text_size_small"
+                android:padding="5dp"/>
+
+        </LinearLayout>
+    </LinearLayout>
+
+    <TextView
+
+        android:id="@+id/call_days_seperator"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/reciepient_details_layout"
+        android:gravity="center_horizontal"
+        android:visibility="gone"/>
+
+</RelativeLayout>

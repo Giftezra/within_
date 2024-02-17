@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--Sets the listeners for differnt states like pressed focused and normal-->
+<selector xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item android:state_pressed="true">
+        <shape android:shape="oval">
+            <corners android:radius="10dp"/>
+            <solid android:color="@color/material_dynamic_neutral70"/>
+        </shape>
+    </item>
+    <!--Set the state when focused-->
+    <item android:state_selected="true">
+        <shape android:shape="oval">
+            <corners android:radius="5dp"/>
+            <solid android:color="@color/black"/>
+            <stroke android:color="@color/secondaryColor"/>
+        </shape>
+    </item>
+
+</selector>

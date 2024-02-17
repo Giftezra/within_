@@ -1,0 +1,31 @@
+<resources xmlns:tools="http://schemas.android.com/tools">
+
+    <!-- Base application theme. -->
+    <style name="BaseTheme" parent="Theme.Material3.Light">
+        <!-- Add common attributes for all activities -->
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+    </style>
+
+    <!-- Customizations for the night theme -->
+    <style name="Theme.Within.Day" parent="BaseTheme">
+        <!-- Customize your night theme here. -->
+        <item name="buttonStyle">@style/buttons</item>
+    </style>
+
+    <!-- Default theme without customizations -->
+    <style name="Theme.Within" parent="BaseTheme" />
+
+    <!-- Define your button style -->
+    <style name="buttons" parent="Widget.Material3.Button">
+        <item name="android:shape">rectangle</item>
+        <item name="android:radius">5dp</item>
+    </style>
+
+
+    <!-- Dialog theme -->
+    <style name="Theme.Within.Dialog" parent="Theme.MaterialComponents.DayNight.Dialog">
+        <!-- Customize your dialog theme here if needed -->
+    </style>
+
+</resources>

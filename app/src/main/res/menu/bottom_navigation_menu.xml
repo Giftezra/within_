@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/home_navigation"
+        android:enabled="true"
+        android:icon="@drawable/ic_home"
+        android:checked="true"
+        android:title="@string/home"/>
+
+    <item
+        android:id="@+id/recent_navigation"
+        android:enabled="true"
+        android:icon="@drawable/ic_recent"
+        android:visible="true"
+        android:checked="true"
+        android:title="@string/recent"/>
+
+    <item
+        android:id="@+id/dail_pad_nav"
+        android:enabled="true"
+        android:icon="@drawable/ic_dig_in"
+        android:title="Dig in"/>
+
+    <item
+        android:id="@+id/contacts_navigation"
+        android:enabled="true"
+        android:checked="true"
+        android:icon="@drawable/ic_contact"
+        android:title="@string/contacts"/>
+
+    <item
+        android:id="@+id/profile_navigation"
+        android:enabled="true"
+        android:icon="@drawable/ic_profile"
+        android:title="@string/profile"/>
+
+
+</menu>
