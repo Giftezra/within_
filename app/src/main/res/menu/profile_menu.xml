@@ -2,5 +2,14 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
     <item
         android:id="@+id/version"
-        android:title="Version"/>
+        android:title="Version">
+        <menu>
+            <item android:id="@+id/versionId"
+                android:title="@string/app_version"/>
+        </menu>
+    </item>
+
+    <item
+        android:id="@+id/credit_history"
+        android:title="@string/credit_history"/>
 </menu>

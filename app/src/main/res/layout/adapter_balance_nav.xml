@@ -70,6 +70,7 @@
         android:layout_gravity="center_vertical|right"
         android:padding="15dp"
         android:layout_marginEnd="5dp"
+        android:elevation="@dimen/layout_elevation"
         android:background="@drawable/button_selector"/>
 
 

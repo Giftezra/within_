@@ -1,21 +1,39 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_height="wrap_content"
     xmlns:tools="http://schemas.android.com/tools"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <androidx.appcompat.widget.Toolbar
+    <LinearLayout
         android:id="@+id/call_log_toolbar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_alignParentTop="true"
-        app:title="@string/first_name"
-        app:subtitle="@string/phone_number"
-        android:gravity="center"
-        app:contentInsetEnd="0dp"
-        app:contentInsetStart="0dp"
-        app:menu="@menu/manage_sim" />
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/call_log_contact_name"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/first_name"
+            android:padding="5dp"
+            android:gravity="center"
+            android:textSize="@dimen/text_size_small"
+            android:elegantTextHeight="true"
+            android:elevation="@dimen/row_adapter_elevation"/>
+
+
+        <TextView
+            android:id="@+id/call_log_contact_number"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/phone_number"
+            android:padding="5dp"
+            android:gravity="center"
+            android:elegantTextHeight="true"/>
+
+
+    </LinearLayout>
 
 
 
@@ -25,7 +43,8 @@
         android:layout_height="match_parent"
         android:divider="@color/supplementaryColor"
         android:layout_below="@+id/call_log_toolbar"
-        android:layout_marginTop="50dp"/>
+        android:layout_marginTop="50dp"
+        android:elevation="@dimen/layout_elevation"/>
 
 
 </RelativeLayout>

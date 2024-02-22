@@ -1,7 +1,27 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
+
     <!-- Base application theme. -->
-    <style name="Base.Theme.Within" parent="Theme.Material3.DayNight.NoActionBar">
-        <!-- Customize your dark theme here. -->
-        <!-- <item name="colorPrimary">@color/my_dark_primary</item> -->
+    <style name="BaseTheme" parent="Theme.Material3.Dark">
+        <!-- Add common attributes for all activities -->
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
     </style>
+
+    <!-- Customizations for the night theme -->
+    <style name="Theme.Within.Night" parent="BaseTheme">
+        <!-- Customize your night theme here. -->
+        <item name="buttonStyle">@style/buttons</item>
+    </style>
+
+    <!-- Default theme without customizations -->
+    <style name="Theme.Within" parent="BaseTheme" />
+
+    <!-- Define your button style -->
+    <style name="buttons" parent="Widget.Material3.Button">
+        <item name="android:shape">rectangle</item>
+        <item name="android:radius">5dp</item>
+    </style>
+
+
+
 </resources>

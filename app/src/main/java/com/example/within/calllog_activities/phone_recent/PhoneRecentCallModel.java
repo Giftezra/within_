@@ -1,6 +1,6 @@
 package com.example.within.calllog_activities.phone_recent;
 
-public class PhoneRecentModel {
+public class PhoneRecentCallModel {
     private String reciepientName;
     private String reciepientNumber;
     private String callDuration;
@@ -10,8 +10,8 @@ public class PhoneRecentModel {
     private final String recentDate;
 
 
-    public PhoneRecentModel(String reciepientName, String reciepientNumber,
-                       int intialLetter, String callDuration, boolean isExpanded, String callType, String date) {
+    public PhoneRecentCallModel(String reciepientName, String reciepientNumber,
+                                int intialLetter, String callDuration, boolean isExpanded, String callType, String date) {
         this.reciepientName = reciepientName;
         this.reciepientNumber = reciepientNumber;
         this.intialLetter = intialLetter;
@@ -69,4 +69,17 @@ public class PhoneRecentModel {
         return isExpanded;
     }
 
+
+    @Override
+    public String toString() {
+        return "PhoneRecentCallModel{" +
+                "reciepientName='" + reciepientName + '\'' +
+                ", reciepientNumber='" + reciepientNumber + '\'' +
+                ", callDuration='" + callDuration + '\'' +
+                ", callType='" + callType + '\'' +
+                ", intialLetter=" + intialLetter +
+                ", isExpanded=" + isExpanded +
+                ", recentDate='" + recentDate + '\'' +
+                '}';
+    }
 }

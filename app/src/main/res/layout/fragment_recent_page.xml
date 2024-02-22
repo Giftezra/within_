@@ -5,7 +5,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".recent.app_recent.RecentFragment"
+    tools:context=".calllog_activities.app_recent.RecentFragment"
     android:id="@+id/main_recent_layout">
 
     <!--This switch button is meant to switch between the recent call log for twilio phone number and
@@ -16,23 +16,26 @@
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
         app:title="Recent"
-        app:titleTextColor="@color/black"/>
+        android:gravity="center"
+        app:titleTextColor="@color/black">
 
-    <!--    The linear layout holds the recycler view for both the recent call log of
-        for twilio incoming calls and the recent recyler for the users phone call log-->
-    <com.google.android.material.materialswitch.MaterialSwitch
-        android:id="@+id/recent_type"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/recent"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="2dp"
-        app:showText="true"
-        app:track="@drawable/track"
-        android:thumb="@drawable/thumb"
-        android:contentDescription="@string/switch_call_log"
-        android:textOff="@string/app_log"
-        android:textOn="@string/phone_log" />
+
+        <!--    The linear layout holds the recycler view for both the recent call log of
+            for twilio incoming calls and the recent recyler for the users phone call log-->
+        <com.google.android.material.materialswitch.MaterialSwitch
+            android:id="@+id/recent_type"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="2dp"
+            app:showText="true"
+            android:contentDescription="@string/switch_call_log"
+            android:textOff="@string/app_log"
+            android:textOn="@string/phone_log"
+            android:layout_gravity="end"
+            android:layout_marginEnd="10dp"/>
+    </androidx.appcompat.widget.Toolbar>
+
 
     <LinearLayout
         android:id="@+id/recent_layout"
@@ -40,7 +43,7 @@
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:orientation="vertical"
-        android:layout_below="@+id/recent_type">
+        android:layout_below="@+id/recent">
 
         <!-- Recent RecyclerView -->
         <androidx.recyclerview.widget.RecyclerView

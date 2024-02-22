@@ -56,7 +56,7 @@ public final class AccessTokenWorker extends Worker {
     private String fetchAccessToken (String userId){
         OkHttpClient client = new OkHttpClient(); // Create a new okhttp client
 
-        String baseUrl = "https://1a27-147-147-235-29.ngrok-free.app/generateToken"; //-- Base url for calls
+        String baseUrl = "https://174b-147-147-235-29.ngrok-free.app/generateToken"; //-- Base url for calls
 
         //Build a request body that contains the userid tag and the userID
         // values to serve as request body to the server

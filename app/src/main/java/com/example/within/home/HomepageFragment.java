@@ -2,7 +2,6 @@ package com.example.within.home;
 
 import android.Manifest;
 import android.content.Context;
-import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.location.Address;
 import android.location.Geocoder;
@@ -47,6 +46,7 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment;
 import com.google.android.material.navigation.NavigationView;
+import com.google.android.material.snackbar.Snackbar;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
@@ -64,13 +64,9 @@ import java.util.Stack;
 import java.util.concurrent.TimeUnit;
 
 public class HomepageFragment extends Fragment implements LocationListener {
-    private
-    Context appContext;
-    Intent intent;
-
-    protected static
-    EditText newPhoneField, newPasswordField, confirmPassword;
-    private RelativeLayout mainHomeLayout;
+    private Context appContext;
+    private static final String TAG = HomepageFragment.class.getSimpleName();
+    public RelativeLayout mainHomeLayout;
     private ProfileUpdateSheet profileUpdateSheet;
     public static FirebaseUser customer;
     private String USER_ID;
@@ -79,16 +75,15 @@ public class HomepageFragment extends Fragment implements LocationListener {
     private final int MANAGE_OWN_CALLS = 1;
     private EditText confirmPasswordField, passwordField, phoneField;
     private Handler handler;
-    private final String TAG = "Home page activity";
     private NavigationView navigationView;
     private DrawerLayout mainDrawer;
     private Toolbar homeBar;
+    private ActionBarDrawerToggle toggle;
     // Create an instance of the textview for the
     // preference nav and edit profile nav
     private TextView user, logoutText, userCurrency, userBalance, userNameText;
     private final Stack<Integer> menustack = new Stack<>();
     private String userName = ""; // Initialize the users first name to null
-
 
 
     // This methi=od is used to get the country from the current location of the user and update
@@ -97,7 +92,7 @@ public class HomepageFragment extends Fragment implements LocationListener {
         if (appContext != null) {
             // Implement logic to get country code from location (you may use Geocoder or other methods)
             // For example:
-            if (isAdded()){
+            if (isAdded()) {
                 Geocoder geocoder = new Geocoder(getContext(), Locale.getDefault());
                 try {
                     List<Address> addresses = geocoder.getFromLocation(location.getLatitude(), location.getLongitude(), 1);
@@ -120,8 +115,6 @@ public class HomepageFragment extends Fragment implements LocationListener {
         switch (country) {
             case "GB":
                 return "gbp";
-            case "US":
-                return "usd";
             case "NG":
                 return "ngn";
             case "CA":
@@ -178,11 +171,11 @@ public class HomepageFragment extends Fragment implements LocationListener {
 
     }
 
-    private void initializeViews (View view){
-        // Initialize the profile image image view
-        // Initialize side navigation views
-        // the initialize side nav, the preference nav the change  number nav
-        // Initialize the text views in the side bar nav
+    private void initializeViews(View view) {
+     /*  Initialize the profile image image view
+         Initialize side navigation views
+         the initialize side nav, the preference nav the change  number nav
+         Initialize the text views in the side bar nav */
         mainDrawer = view.findViewById(R.id.main_home);
         navigationView = view.findViewById(R.id.navigation_view);
         user = view.findViewById(R.id.user_name); //todo check this
@@ -203,14 +196,13 @@ public class HomepageFragment extends Fragment implements LocationListener {
     }
 
 
-
-    private NavigationView.OnNavigationItemSelectedListener navigationItemSelectedListener(){
+    private NavigationView.OnNavigationItemSelectedListener navigationItemSelectedListener() {
         return new NavigationView.OnNavigationItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
                 int itemId = item.getItemId();
                 menustack.push(navigationView.getMenu().getItem(0).getItemId());// Push the menu into the stack
-                if (itemId == R.id.profile){
+                if (itemId == R.id.profile) {
                     navigationView.getMenu().clear();// Clear  the initial menu item
                     navigationView.inflateMenu(R.menu.update_profile_menu); // inflate the profile menu
                     mainDrawer.openDrawer(GravityCompat.START, true);
@@ -220,21 +212,20 @@ public class HomepageFragment extends Fragment implements LocationListener {
                     navigationView.inflateMenu(R.menu.preference_menu);
                     mainDrawer.openDrawer(GravityCompat.START, true); // Close the drawer
 
-                }else if (itemId == R.id.notifications){
+                } else if (itemId == R.id.notifications) {
                     navigationView.getMenu().clear();
                     navigationView.inflateMenu(R.menu.notification_menu);
                     mainDrawer.openDrawer(GravityCompat.START, true);
 
-                }else if (itemId == R.id.manage_sim){
+                } else if (itemId == R.id.manage_sim) {
                     navigationView.getMenu().clear();
                     navigationView.inflateMenu(R.menu.manage_sim);
                     mainDrawer.openDrawer(GravityCompat.START, true);
-                }else {
+                } else {
                     handleProfileSheet(itemId);
                     mainDrawer.closeDrawer(GravityCompat.START);
                     syncToggleState();
                 }
-
 
                 return true;
             }
@@ -242,8 +233,8 @@ public class HomepageFragment extends Fragment implements LocationListener {
     }
 
     /*
-    * Helper method sed to transverse the menus on the drawer navigation
-    * -- popping out the item on the stack and initializes the local previous*/
+     * Helper method sed to transverse the menus on the drawer navigation
+     * -- popping out the item on the stack and initializes the local previous*/
     final void navigateBack() {
         if (!menustack.isEmpty()) {
             int previousMenuItemId = menustack.pop(); // Pop the top item from the stack
@@ -255,9 +246,9 @@ public class HomepageFragment extends Fragment implements LocationListener {
     }
 
     /*
-    * Helper method is used to reset the navigation menu when closed.
-    * --this means that the view will refresh displaying the parent
-    * menu when the drawer is re-opened*/
+     * Helper method is used to reset the navigation menu when closed.
+     * --this means that the view will refresh displaying the parent
+     * menu when the drawer is re-opened*/
     final void resetNavigationViewMenu() {
         // Clear the current menu and inflate the original menu
         navigationView.getMenu().clear();
@@ -268,11 +259,12 @@ public class HomepageFragment extends Fragment implements LocationListener {
     /**
      * Method signature is used to handle the backpresssed listener for this activity when fired
      * --it takes no params but initialized a couple of fields locally.
-     *
+     * <p>
      * --returns a new onBackPressedCallback with instructions on how to handle the
-     * --listener*/
-    final OnBackPressedCallback onBackPressedCallback(){
-        final  long DOUBLE_PRESS_INTERVAL = 2000; // 2 seconds
+     * --listener
+     */
+    final OnBackPressedCallback onBackPressedCallback() {
+        final long DOUBLE_PRESS_INTERVAL = 2000; // 2 seconds
         final long[] lastPressTime = {0};
         return new OnBackPressedCallback(true) {
             @Override
@@ -280,7 +272,7 @@ public class HomepageFragment extends Fragment implements LocationListener {
                 long currentTime = System.currentTimeMillis();
                 if (currentTime - lastPressTime[0] > DOUBLE_PRESS_INTERVAL) {
                     // First press within the interval
-//                    Toast.makeText(getContext(), "Press again to exit", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getContext(), "Press again to exit", Toast.LENGTH_SHORT).show();
                     lastPressTime[0] = currentTime;
                 } else {
                     // Second press within the interval, perform the exit action
@@ -288,8 +280,9 @@ public class HomepageFragment extends Fragment implements LocationListener {
                     // requireActivity().finish(); // Or navigate to the previous screen as needed
                 }
 
-                if (mainDrawer.isDrawerOpen(GravityCompat.START)){
-                    mainDrawer.closeDrawer(GravityCompat.START, true);}
+                if (mainDrawer.isDrawerOpen(GravityCompat.START)) {
+                    mainDrawer.closeDrawer(GravityCompat.START, true);
+                }
 
             }
         };
@@ -300,20 +293,23 @@ public class HomepageFragment extends Fragment implements LocationListener {
      * Helper method used to create a new bottomSheetFragment for the user profile update
      * -- when called the method checks for the argment passed in the params and if the
      * --id matches the required id, the sheet is created
+     *
      * @param id
-     * */
-    private void handleProfileSheet (int id){
+     */
+    private void handleProfileSheet(int id) {
         if (isAdded()) {
-            if (profileUpdateSheet != null && profileUpdateSheet.isVisible()){
+            if (profileUpdateSheet != null && profileUpdateSheet.isVisible()) {
                 profileUpdateSheet.dismiss();
-            }else {
-                profileUpdateSheet = new ProfileUpdateSheet(id, appContext);
+            } else {
+                profileUpdateSheet = new ProfileUpdateSheet(id, appContext, mainHomeLayout);
                 profileUpdateSheet.show(requireActivity().getSupportFragmentManager(), "ModalBottomSheet");
             }
         }
     }
 
-    final void setUpUser(){
+
+
+    final void setUpUser() {
         // Create an instance of the firebase user using the currently signed in user
         // check if the user is valid on the system and if valid get the user id.
         // get the userRef by passing the reference to the (Users) collection
@@ -333,8 +329,8 @@ public class HomepageFragment extends Fragment implements LocationListener {
      * This method handles the intialization and implementations of the token worker class which
      * is used to fetch the users accesstoken from the server by passing the users firebase uID
      * as argument to the method params
-     * */
-    final void startTokenWork(String userId){
+     */
+    final void startAccessTokenWorker(String userId) {
         // Since the worker class requires the class to not be an inner class a data builder
         // will be used to create a data map with the userod tag and the user id
         Data inputData = new Data.Builder()
@@ -349,7 +345,8 @@ public class HomepageFragment extends Fragment implements LocationListener {
 
         // Sets the periodic workrequest of the AccessTokenWorker to 12hours
         // even if the user is not online
-        PeriodicWorkRequest workRequest = new PeriodicWorkRequest.Builder(AccessTokenWorker.class, 12, TimeUnit.HOURS)
+        PeriodicWorkRequest workRequest = new PeriodicWorkRequest.Builder
+                (AccessTokenWorker.class, 12, TimeUnit.HOURS)
                 .setConstraints(constraints)
                 .setInputData(inputData)
                 .build();
@@ -359,12 +356,15 @@ public class HomepageFragment extends Fragment implements LocationListener {
     }
 
 
-
-    final void syncToggleState(){
-        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(getActivity(),
-                mainDrawer,homeBar, R.string.open_drawer, R.string.close_drawer);
+    final void syncToggleState() {
+        toggle = new ActionBarDrawerToggle(
+                getActivity(),
+                mainDrawer, homeBar,
+                R.string.open_drawer,
+                R.string.close_drawer);
 
         mainDrawer.addDrawerListener(toggle);
+        toggle.setDrawerIndicatorEnabled(true);
         toggle.syncState(); // Sync the toggel to enable the toggle icons
 
     }
@@ -376,22 +376,28 @@ public class HomepageFragment extends Fragment implements LocationListener {
         View view = inflater.inflate(R.layout.fragment_home_page, container, false);
         appContext = requireContext().getApplicationContext(); // Get the current application context
         handler = new Handler(); // Initialize a new handler
-        userName = WelcomeActivity.getUserName();
-        startTokenWork(USER_ID); //-- Start token retrieval work
-        /*Request user permission to manage own calls*/
+
+        /* Start the token worker immediately the activity starts to ensure every user has
+        * a new token every 12 hour immediately after login*/
+        startAccessTokenWorker(USER_ID);
+
+        /* Request user permission to manage own calls when the starts...
+        * //Todo this should be re-done and put into the welcome activity*/
         if (ContextCompat.checkSelfPermission(appContext, Manifest.permission.MANAGE_OWN_CALLS) != PackageManager.PERMISSION_GRANTED)
-            ActivityCompat.requestPermissions(getActivity(),new String[]{Manifest.permission.MANAGE_OWN_CALLS}, MANAGE_OWN_CALLS);
+            ActivityCompat.requestPermissions(getActivity(), new String[]{Manifest.permission.MANAGE_OWN_CALLS}, MANAGE_OWN_CALLS);
 
-        // Create and initialize a new ActionBarToggle to open and close the drawer when clicked.
-        // the object takes the drawer-layout, actionbar, and other objects to build the new toggle
-        // calling the sync state to begin the process
+       /*  Create and initialize a new ActionBarToggle to open and close the drawer when clicked.
+         the object takes the drawer-layout, actionbar, and other objects to build the new toggle
+         calling the sync state to begin the process using a method reference*/
         initializeViews(view);
-        requireActivity().runOnUiThread(this::syncToggleState);//-- sync the toggle state using the view thread
-//        if (userName != null) requireActivity().runOnUiThread(()-> userNameText.setText(userName));
+        requireActivity().runOnUiThread(this::syncToggleState);
 
+        /* Set the listener to the navigation view to listen to menu and sub-menu clicks
+        * firing up the required methods */
         navigationView.setNavigationItemSelectedListener(navigationItemSelectedListener());
 
-        // Set the actions for the drawer
+        /* Set the listener to the drawer xml which holds the navigation view
+        * the view resets when the user closes the drawer layout */
         mainDrawer.addDrawerListener(new DrawerLayout.SimpleDrawerListener() {
             @Override
             public void onDrawerClosed(@NonNull View drawerView) {
@@ -411,7 +417,7 @@ public class HomepageFragment extends Fragment implements LocationListener {
         if (locationManager != null) {
             // Request location updates
             if (ActivityCompat.checkSelfPermission(getContext(), Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED &&
-                    ActivityCompat.checkSelfPermission( getContext(), Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+                    ActivityCompat.checkSelfPermission(getContext(), Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
                 // TODO: Consider calling
                 //    ActivityCompat#requestPermissions
                 // here to request the missing permissions, and then overriding
@@ -446,7 +452,7 @@ public class HomepageFragment extends Fragment implements LocationListener {
     @Override
     public void onAttach(@NonNull Context context) {
         super.onAttach(context);
-        if (isAdded() && appContext == null){
+        if (isAdded() && appContext == null) {
             appContext = context.getApplicationContext();
         }
     }
@@ -462,57 +468,46 @@ public class HomepageFragment extends Fragment implements LocationListener {
     }
 
 
-
-
-
     public static class ProfileUpdateSheet extends BottomSheetDialogFragment {
         private final int id;
         private final
         Context context;
         private
         Button submitPasswordButton, submitNewMobileButton;
+        private RelativeLayout mainHomeLayout;
+        protected static
+        EditText newPhoneField, newPasswordField, confirmPassword;
 
 
-        public ProfileUpdateSheet(int id, Context context) {
+        public ProfileUpdateSheet(int id, Context context, RelativeLayout mainLayout) {
             this.id = id;
             this.context = context;
+            this.mainHomeLayout = mainLayout;
         }
 
         @Nullable
         @Override
         public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-            if (inflateLayout(inflater, container) != null) {
-                View view = inflateLayout(inflater, container);
-                newPasswordField = view.findViewById(R.id.new_password_field);
-                newPhoneField = view.findViewById(R.id.new_phone_field);
-                confirmPassword = view.findViewById(R.id.confirm_password);
-                submitNewMobileButton = view.findViewById(R.id.submit_new_number);
-                submitPasswordButton = view.findViewById(R.id.submit_new_password);
-
-                //--set listeners to the button when fired
-                if (submitNewMobileButton != null && submitPasswordButton != null) {
-                    submitPasswordButton.setOnClickListener(onClickListener());
-                    submitNewMobileButton.setOnClickListener(onClickListener());
-                }
-
-                return view;
-            } else {
-                return null;
-            }
-
-        }
-
-
-        private View inflateLayout(LayoutInflater inflater, ViewGroup parent) {
+            View view = null;
             if (id == R.id.change_password) {
-                return inflater.inflate(R.layout.fragment_change_password, parent, false);
-
+                view = inflater.inflate(R.layout.fragment_change_password, container, false);
+                newPasswordField = view.findViewById(R.id.new_password_field);
+                confirmPassword = view.findViewById(R.id.confirm_password);
+                submitPasswordButton = view.findViewById(R.id.submit_new_password);
             } else if (id == R.id.change_number) {
-                return inflater.inflate(R.layout.fragment_change_phone, parent, false);
+                view = inflater.inflate(R.layout.fragment_change_phone, container, false);
+                newPhoneField = view.findViewById(R.id.new_phone_field);
+                submitNewMobileButton = view.findViewById(R.id.submit_new_number);
             }
-            return null;
-        }
 
+            //--set listeners to the button when fired
+            if (submitNewMobileButton != null) {
+                submitNewMobileButton.setOnClickListener(onClickListener());
+            }
+
+            return view;
+
+        }
 
         private View.OnClickListener onClickListener() {
             return v -> {
@@ -522,70 +517,86 @@ public class HomepageFragment extends Fragment implements LocationListener {
                     String newPassword = newPasswordField.getText().toString();
                     String confirm = confirmPassword.getText().toString();
 
+                    if (newPasswordField == null || confirmPassword == null) {
+                        Snackbar.make(mainHomeLayout, "Field must not be empty", Snackbar.LENGTH_SHORT)
+                                .show();
+                    }
+
                     //--check if the details match
                     if (newPassword.equals(confirm) && newPassword.startsWith("+")) {
-                        customer.updatePassword(newPassword).addOnCompleteListener(new OnCompleteListener<Void>() {
-                            @Override
-                            public void onComplete(@NonNull Task<Void> task) {
-                                if (task.isSuccessful()) { // Confirms the password was successfully changed before proceeding
-                                    Toast.makeText(context, "Password changed successfully", Toast.LENGTH_LONG)
-                                            .show();
-                                } else {
-                                    // show a message to the user to contact support
-                                    // Todo in later version users would be unabble to change password again after three failed attempts
-                                    Toast.makeText(context, "Error while changing password... Please contact us", Toast.LENGTH_SHORT).show();
-                                }
-                            }
-                        });
-                    } else if (!newPassword.equals(confirm))
+                        changePasswordHelper(newPassword);
+                    } else if (!newPassword.equals(confirm)) {
                         newPasswordField.setError("Password don't match");
+                    }
 
-
+                    /* Checks for button clicked id if it matches the required submit button*/
                 } else if (id == R.id.submit_new_number) {
-
                     String newMobile = newPhoneField.getText().toString();
                     // Check the value of the mobile number entered for improper tags
                     if (!newMobile.startsWith("+")) {
-                        Toast.makeText(context, "Mobile  number must begin with dial-code characters (+)", Toast.LENGTH_SHORT)
-                                .show();
+                        Snackbar.make(mainHomeLayout, "Mobile  number must begin with dial-code characters (+)",
+                                Snackbar.LENGTH_SHORT).show();
                     } else {
                         // Perform task
-                        userRef.addListenerForSingleValueEvent(new ValueEventListener() {
-                            @Override
-                            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                                if (snapshot.exists()) { // Checks if the user exists with the given id in the db
-                                    // and create a new user object to set the new user phone
-                                    User currentUser = snapshot.getValue(User.class);
-                                    // Checks if the current user is invalid before setting the new phone
-                                    if (currentUser != null) {
-                                        currentUser.setPhone_number(newMobile);
-                                        userRef.setValue(currentUser).addOnCompleteListener(task -> {// Set the new value to the database column
-                                            // and checks if the task is successful before displaying a toast mesage to the user
-                                            if (task.isSuccessful()) {
-                                                Toast.makeText(context, "Successfully updated your phone number "
-                                                                        + currentUser.getPhone_number(),
-                                                                Toast.LENGTH_SHORT)
-                                                        .show();
-                                            } else {
-                                                Toast.makeText(context, "Error updating phone number", Toast.LENGTH_SHORT)
-                                                        .show();
-                                            }
-                                        });
-                                    }
-
-                                }
-                            }
-
-                            @Override
-                            public void onCancelled(@NonNull DatabaseError error) {
-
-                            }
-                        });
+                        changeRegisteredMobileHelper(newMobile);
                     }
 
                 }
             };
 
+        }
+
+        final void changePasswordHelper(String newPassword) {
+            customer.updatePassword(newPassword).addOnCompleteListener(new OnCompleteListener<Void>() {
+                @Override
+                public void onComplete(@NonNull Task<Void> task) {
+                    if (task.isSuccessful()) { // Confirms the password was successfully changed before proceeding
+                        Log.d(TAG, "Succuss updating password");
+                        Snackbar.make(mainHomeLayout, "Password changed successfully",
+                                        Snackbar.LENGTH_LONG)
+                                .show();
+                    } else {
+                        // show a message to the user to contact support
+                        // Todo in later version users would be unabble to change password again after three failed attempts
+                        Snackbar.make(mainHomeLayout, "Error while changing password... Please contact us", Toast.LENGTH_SHORT).show();
+                    }
+                }
+            });
+        }
+
+
+        final void changeRegisteredMobileHelper(String newMobile) {
+            userRef.addListenerForSingleValueEvent(new ValueEventListener() {
+                @Override
+                public void onDataChange(@NonNull DataSnapshot snapshot) {
+                    if (snapshot.exists()) { // Checks if the user exists with the given id in the db
+                        // and create a new user object to set the new user phone
+                        User currentUser = snapshot.getValue(User.class);
+                        // Checks if the current user is invalid before setting the new phone
+                        if (currentUser != null) {
+                            currentUser.setPhone_number(newMobile);
+                            userRef.setValue(currentUser).addOnCompleteListener(task -> {// Set the new value to the database column
+                                // and checks if the task is successful before displaying a toast mesage to the user
+                                if (task.isSuccessful()) {
+                                    Toast.makeText(context, "Successfully updated your phone number "
+                                                            + currentUser.getPhone_number(),
+                                                    Toast.LENGTH_SHORT)
+                                            .show();
+                                } else {
+                                    Toast.makeText(context, "Error updating phone number", Toast.LENGTH_SHORT)
+                                            .show();
+                                }
+                            });
+                        }
+
+                    }
+                }
+
+                @Override
+                public void onCancelled(@NonNull DatabaseError error) {
+
+                }
+            });
         }
     }
 

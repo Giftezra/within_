@@ -204,6 +204,10 @@ public class DialpadFragment extends Fragment {
             return view;
         }
 
+        /**
+         * The onstart method is call when ever the sheet is being brought into focus
+         * when the user open the sheet this code will ensure the sheets content matches its
+         * windows layout params*/
         @Override
         public void onStart() {
             super.onStart();

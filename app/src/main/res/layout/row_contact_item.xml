@@ -13,7 +13,8 @@
         android:orientation="horizontal"
         android:layout_alignParentTop="true"
         android:gravity="center"
-        android:padding="10dp">
+        android:padding="10dp"
+        android:elevation="@dimen/layout_elevation">
 
         <TextView
             android:id="@+id/letter_image"
@@ -27,7 +28,8 @@
             android:contentDescription="contact initials"
             android:layout_gravity="center_vertical"
             android:hint="G"
-            android:padding="5dp"/>
+            android:padding="5dp"
+            android:elevation="@dimen/row_adapter_elevation"/>
 
 
         <TextView
@@ -41,7 +43,8 @@
             android:contentDescription="contact name"
             android:layout_gravity="center_vertical"
             android:padding="5dp"
-            android:gravity="center_vertical"/>
+            android:gravity="center_vertical"
+            android:elevation="@dimen/row_adapter_elevation"/>
 
 
     </LinearLayout>

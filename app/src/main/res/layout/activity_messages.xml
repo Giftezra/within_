@@ -9,44 +9,15 @@
 
     <!--Layout holds the toolbar , search icon and the user profile which would
     be the users image if uploaded-->
-    <LinearLayout
+
+    <androidx.appcompat.widget.Toolbar
         android:id="@+id/toolbar_layout"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentTop="true"
-        android:layout_alignParentEnd="true"
-        android:layout_alignParentStart="true"
-        android:gravity="center">
-
-        <androidx.appcompat.widget.Toolbar
-            android:id="@+id/message_toolbar"
-            android:layout_width="0dp"
-            android:layout_weight="1"
-            android:layout_height="wrap_content"
-            app:title="Messages"
-            app:titleTextColor="@color/primaryColor"/>
-
-
-        <androidx.appcompat.widget.AppCompatImageView
-            android:id="@+id/search_messages"
-            android:layout_width="0dp"
-            android:layout_weight="0.2"
-            android:layout_height="wrap_content"
-            android:src="@drawable/ic_search"
-            android:layout_gravity="center_vertical"
-            android:outlineAmbientShadowColor="@color/primaryColor"/>
-
-
-        <androidx.appcompat.widget.AppCompatImageView
-            android:id="@+id/profile_image"
-            android:layout_width="0dp"
-            android:layout_weight="0.2"
-            android:layout_height="match_parent"
-            android:src="@drawable/ic_person"
-            android:padding="10dp"
-            android:layout_gravity="center_vertical"/>
-
-    </LinearLayout>
+        android:layout_height="@dimen/toolbar_height"
+        app:title="Messages"
+        app:titleTextColor="@color/primaryColor"
+        android:elevation="10dp"
+        app:menu="@menu/menu_search_messages"/>
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/messages_recycler"

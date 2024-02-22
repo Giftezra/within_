@@ -44,7 +44,7 @@ public class CallTask  extends Worker {
     private int placeCall (String to){
         OkHttpClient client = new OkHttpClient(); // Create a new okhttp client
         // Create  a new request passing the base url as params
-        String baseUrl = "https://1a27-147-147-235-29.ngrok-free.app/make-call";
+        String baseUrl = "https://174b-147-147-235-29.ngrok-free.app/make-call";
 
         //Build a request body that contains the userid tag and the userID
         // values to serve as request body to the server

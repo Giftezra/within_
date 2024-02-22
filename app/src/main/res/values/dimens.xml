@@ -9,4 +9,8 @@
     <dimen name="button_text">15sp</dimen>
     <dimen name="recycler_margin">40dp</dimen>
     <dimen name="bottom_view">200dp</dimen>
+    <dimen name="layout_elevation">8dp</dimen>
+    <dimen name="row_adapter_elevation">5dp</dimen>
+    <dimen name="toolbar_height">50dp</dimen>
+    <dimen name="search_view">40dp</dimen>
 </resources>

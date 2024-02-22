@@ -36,10 +36,17 @@ import androidx.core.app.ActivityCompat;
 import androidx.lifecycle.Lifecycle;
 import androidx.lifecycle.ProcessLifecycleOwner;
 import androidx.localbroadcastmanager.content.LocalBroadcastManager;
+import androidx.work.Constraints;
+import androidx.work.Data;
+import androidx.work.NetworkType;
+import androidx.work.OneTimeWorkRequest;
+import androidx.work.WorkInfo;
+import androidx.work.WorkManager;
 
 import com.example.within.R;
 import com.example.within.calllog_activities.app_recent.RecentModel;
 import com.example.within.helpers.*;
+import com.example.within.interfaces.AppRecentCallLogListener;
 import com.example.within.service_managers.*;
 import com.example.within.workers.*;
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment;
@@ -49,8 +56,10 @@ import com.google.android.material.snackbar.Snackbar;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.messaging.FirebaseMessaging;
+import com.twilio.Twilio;
 import com.twilio.audioswitch.AudioDevice;
 import com.twilio.audioswitch.AudioSwitch;
+import com.twilio.rest.microvisor.v1.App;
 import com.twilio.voice.Call;
 import com.twilio.voice.CallException;
 import com.twilio.voice.CallInvite;
@@ -62,6 +71,8 @@ import com.twilio.voice.Voice;
 import org.java_websocket.client.WebSocketClient;
 
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -73,6 +84,7 @@ import java.util.Vector;
 
 
 public class CallTaskActivity extends AppCompatActivity {
+    private AppRecentCallLogListener recentCallLogListener;
     private static  Call phoneCall = null;
     private static final String TAG = "CallTaskActivity";
     public static final String OUTGOING_CALL_ADDRESS = "OUTGOING_CALL_ADDRESS";
@@ -108,13 +120,16 @@ public class CallTaskActivity extends AppCompatActivity {
     private RelativeLayout mainLayout;
     private Chronometer chronometer;
     private final HashMap<String, String> params = new HashMap<>();
-    private
-    SharedPreferences preferences;
-
-    RegistrationListener registrationListener = registrationListener();
-    Call.Listener callListener = callListener();
+    private SharedPreferences preferences;
+    private AppRecentCallLogListener appRecentCallLogListener;
 
 
+    public CallTaskActivity (){
+    }
+
+    public void setAppRecentCallListener(AppRecentCallLogListener appRecentCallLogListener){
+        this.appRecentCallLogListener = appRecentCallLogListener;
+    }
 
     private void answer() {
         SoundPoolManager.getInstance(this).stopRinging();
@@ -156,6 +171,7 @@ public class CallTaskActivity extends AppCompatActivity {
 
                 SoundPoolManager.getInstance(CallTaskActivity.this).playRinging();
             }
+
 
             @Override
             public void onConnectFailure(@NonNull Call call, @NonNull CallException error) {
@@ -263,8 +279,8 @@ public class CallTaskActivity extends AppCompatActivity {
             switch (action) {
                 case Constants.ACTION_INCOMING_CALL:
                     handleIncomingCall(name, number);
-                    GenericCallAndContactWorker.addRecentCalls(new RecentModel(name,
-                           number, "" , false, "incoming"));
+//                   // GenericCallAndContactWorker.addRecentCalls(new RecentModel(name,
+//                           number, "" , false, "incoming"));
                     break;
                 case Constants.ACTION_INCOMING_CALL_NOTIFICATION:
                     //TODO INCOMING CALL NOTIFICATION
@@ -344,6 +360,9 @@ public class CallTaskActivity extends AppCompatActivity {
                     //-- get the contact number sent the intent using the final keyword
                     String to = extras.getString(Constants.OUTGOING_CALL_RECIPIENT);
                     String calleeName = extras.getString(Constants.RECIPIENT_NAME);
+                    Log.d(TAG, "Recent model updated from the call");
+                    updateCallLog(calleeName, to);
+
                     if (to != null) {
                        // GenericCallAndContactWorker.addRecentCalls(new RecentModel(calleeName, to, "", false,"dialed"));
                         //-- check for recipients null value before puting it into the map
@@ -351,13 +370,7 @@ public class CallTaskActivity extends AppCompatActivity {
                         //--Initiate a call by calling this method which will send an action
                         //--to the call service to start the call service
                         initiateCalls(to, intent); //--Pass the received number from the intent
-                        //--Create a connection options which will be pas.sed the access-token to
-                        //--tag the user to a call and ensure the user is validated on the system to make calls
-                        //--also pass the params which contains the phone number in the incoming intent
-                        ConnectOptions connectOptions = new ConnectOptions.Builder(accessToken)
-                                .params(params)
-                                .build();
-                        activeCall = Voice.connect(getApplicationContext(), connectOptions, callListener);
+                        // updateCallLog(calleeName, to);
                         Log.d(TAG, "Call initiated using twilio voice.connect method " + activeCall);
                     }
                 } else {
@@ -366,44 +379,50 @@ public class CallTaskActivity extends AppCompatActivity {
             }
         }
     }
-//
-//    final void handleCallWorker(String recipient){
-//        //-- Creates a new data to pass the recipient number to the server
-//        Data inputData = new Data.Builder()
-//                .putString("to", recipient)  // Example parameter
-//                .build();
-//
-//        // Sets the constraint for the worker to a network type connected which means the
-//        // worker would run only on the ground there is a valid internet connection
-//        Constraints constraints = new Constraints.Builder()
-//                .setRequiredNetworkType(NetworkType.CONNECTED)
-//                .build();
-//
-//        //--Create a onetime work request to run the callTask class which sends a call
-//        //--request to the server to place a call and the worker will return a status
-//        //--code if successful
-//        OneTimeWorkRequest request = new OneTimeWorkRequest.Builder(CallTask.class)
-//                .setInputData(inputData)
-//                .setConstraints(constraints)
-//                .build();
-//
-//        // Enque the work request to the manager
-//        WorkManager.getInstance(getApplicationContext()).enqueue(request);
-//        //--Monitor the work flow of the request using is request id to target it.
-//        //--manage the workflow creating the connect options and the call only when the
-//        //--work sate returns a success.
-//        //--this ensures proper work flow for the user
-//        WorkManager.getInstance(getApplicationContext()).getWorkInfoByIdLiveData(request.getId())
-//                .observe(this, workInfo -> {
-//                    if (workInfo.getState() == WorkInfo.State.SUCCEEDED) {
-//                        Data outputData = workInfo.getOutputData();
-//
-//                    } else if (workInfo.getState() == WorkInfo.State.FAILED){
-//                        int reason = workInfo.getStopReason();
-//                        Toast.makeText(getApplicationContext(), "Error with the call worker with reason " + reason , Toast.LENGTH_SHORT).show();
-//                    }
-//                });
-//    }
+
+    final void handleCallWorker(String recipient){
+        //-- Creates a new data to pass the recipient number to the server
+        Data inputData = new Data.Builder()
+                .putString("to", recipient)  // Example parameter
+                .build();
+
+        // Sets the constraint for the worker to a network type connected which means the
+        // worker would run only on the ground there is a valid internet connection
+        Constraints constraints = new Constraints.Builder()
+                .setRequiredNetworkType(NetworkType.CONNECTED)
+                .build();
+
+        //--Create a onetime work request to run the callTask class which sends a call
+        //--request to the server to place a call and the worker will return a status
+        //--code if successful
+        OneTimeWorkRequest request = new OneTimeWorkRequest.Builder(CallTask.class)
+                .setInputData(inputData)
+                .setConstraints(constraints)
+                .build();
+
+        // Enque the work request to the manager
+        WorkManager.getInstance(getApplicationContext()).enqueue(request);
+        //--Monitor the work flow of the request using is request id to target it.
+        //--manage the workflow creating the connect options and the call only when the
+        //--work sate returns a success.
+        //--this ensures proper work flow for the user
+        WorkManager.getInstance(getApplicationContext()).getWorkInfoByIdLiveData(request.getId())
+                .observe(this, workInfo -> {
+                    if (workInfo.getState() == WorkInfo.State.SUCCEEDED) {
+                        //--Create a connection options which will be pas.sed the access-token to
+                        //--tag the user to a call and ensure the user is validated on the system to make calls
+                        //--also pass the params which contains the phone number in the incoming intent
+                        ConnectOptions connectOptions = new ConnectOptions.Builder(accessToken)
+                                .params(params)
+                                .build();
+                        activeCall = Voice.connect(getApplicationContext(), connectOptions, callListener());
+
+                    } else if (workInfo.getState() == WorkInfo.State.FAILED){
+                        int reason = workInfo.getStopReason();
+                        Toast.makeText(getApplicationContext(), "Error with the call worker with reason " + reason , Toast.LENGTH_SHORT).show();
+                    }
+                });
+    }
 
 
 
@@ -428,11 +447,13 @@ public class CallTaskActivity extends AppCompatActivity {
                     String name = extra.getString(Constants.RECIPIENT_NAME);
                     String phone = extra.getString(Constants.OUTGOING_CALL_RECIPIENT);
 
-                    //-- check for valid pointer in the phone number like if it starts with the country
-                    //-- code or if it is longer than 3 as twilio does not support emergency calls
-                    //-- also check if is does not contain any string literals just numbers
-                    if (phone != null && phone.startsWith("+") ||
-                            phone.length() > 3 && !phone.matches(".*[a-zA-Z].*")) {
+                /*Check for valid pointer in the phone number like if it starts with the country
+                    code or if it is longer than 3 as twilio does not support emergency calls
+                    also check if is does not contain any string literals just numbers*/
+                    if (phone != null && phone.startsWith("+")
+                            || phone.length() > 3
+                            && !phone.matches(".*[a-zA-Z].*")) {
+
                         showPricingDialog(phone); //---display pricing dialog
                         runOnUiThread(()-> recipientPhone.setText(phone)); //-- Update the ui with the phone number
                     }else if (name != null){
@@ -447,6 +468,21 @@ public class CallTaskActivity extends AppCompatActivity {
                 }
 
             }
+        }
+    }
+
+
+    /*
+     * Helper method gets the ongoing call anc checks for a null value
+     * then it takes also checks if the activeCall is not on-hold before
+     * it calls the hold method of the activeCall and passes the boolean
+     * returned from the call check to hold or un-hold the call if hold
+     **/
+    protected void hold() {
+        if (activeCall != null) {
+            boolean hold = !activeCall.isOnHold();
+            activeCall.hold(hold);
+
         }
     }
 
@@ -480,8 +516,10 @@ public class CallTaskActivity extends AppCompatActivity {
     private void initiateCalls(String to, Intent intent){
         String action = intent.getAction();
         if (action != null && action.equals(Constants.ACTION_OUTGOING_CALL)){
-            //Create a new intent to open the incomingNotificationService which
-            // handles the calls notification service and connect to the telecom manager
+            /* Call the call worker to start the work request to initiate a call on the server */
+            handleCallWorker(to);
+            /*Create a new intent to open the incomingNotificationService which
+             handles the calls notification service and connect to the telecom manager*/
             Intent callIntent = new Intent(getApplicationContext(), IncomingCallNotificationService.class);
             callIntent.putExtra(Constants.OUTGOING_CALL_RECIPIENT, to);
             callIntent.setAction(Constants.ACTION_OUTGOING_CALL);
@@ -567,12 +605,50 @@ public class CallTaskActivity extends AppCompatActivity {
                     if (task.isSuccessful() && accessToken != null) {
                         String fcmToken = Objects.requireNonNull(task.getResult());
                         Log.i(TAG, "Registering with FCM");
-                        Voice.register(accessToken, Voice.RegistrationChannel.FCM, fcmToken, registrationListener);
+                        Voice.register(accessToken, Voice.RegistrationChannel.FCM, fcmToken, registrationListener());
                     }else {
                         Log.d(TAG, "Error generating fcmtoken.. check the firebase messaging service");
                     }
                 });
     }
+
+    /**
+     * This helper method is used to fire the interface which listens for calls to update the app
+     * recent call log list.
+     * @param name is the name of the callee
+     * @param number is the phone number of the callee which is passed
+     * as argument to the recentModel
+     */
+    void updateCallLog(String name, String number) {
+        Calendar calendar = Calendar.getInstance();
+        Date date = calendar.getTime();
+        String dateString = date.toString();
+        Log.d(TAG, "update call log date " + dateString);
+
+        if (recentCallLogListener != null) {
+            recentCallLogListener.onItemAdded(
+                    new RecentModel(name,
+                            number,
+                            R.drawable.ic_person,
+                            null,
+                            false,
+                            null,
+                            dateString
+                    ));
+            Log.d(TAG, "Recent call interface triggered");
+        }else{
+            Log.d(TAG, "Listener is " + null);
+        }
+    }
+
+
+//    /**
+//     * This method sets the recent call log listener by taking
+//     * @params recentListener which will be used by the calling activity
+//     * that implements the listener to*/
+//    public void setRecentCallLogListeners (AppRecentCallLogListener recentCallLogListeners){
+//        this.recentCallLogListener = recentCallLogListeners;
+//    }
 
 
     /**
@@ -637,9 +713,9 @@ public class CallTaskActivity extends AppCompatActivity {
                     switch (action) {
                         case Constants.ACTION_OUTGOING_CALL:
                             handleCallRequest(intent);
-                            GenericCallAndContactWorker.addRecentCalls(new RecentModel(intent.getStringExtra(Constants.RECIPIENT_NAME),
-                                    intent.getStringExtra(Constants.OUTGOING_CALL_RECIPIENT),
-                                    null, false, "dialed"));
+//                            GenericCallAndContactWorker.addRecentCalls(new RecentModel(intent.getStringExtra(Constants.RECIPIENT_NAME),
+//                                    intent.getStringExtra(Constants.OUTGOING_CALL_RECIPIENT),
+//                                    null, false, "dialed"));
                             Log.d(TAG, "Voice broadcast outgoing call action: " + action);
                             break;
                         case ACTION_DISCONNECT_CALL:
@@ -809,33 +885,19 @@ public class CallTaskActivity extends AppCompatActivity {
         }
     }
 
-    /*
-     * Helper method gets the ongoing call anc checks for a null value
-     * --then it takes also checks if the activeCall is not on-hold before
-     *--it calls the hold method of the activeCall and passes the boolean
-     *--returned from the call check to hold or un-hold the call if hold
-     *--------*/
-    protected void hold() {
-        if (activeCall != null) {
-            boolean hold = !activeCall.isOnHold();
-            activeCall.hold(hold);
-
-        }
-    }
 
     /*
     * Helper method gets the ongoing call anc checks for a null value
-    * --then it takes also checks if the activeCall is not muted before
-    *--it calls the mute method of the activeCall and passes the boolean
-    *--returned from the call check
-    *--------*/
+    * then it takes also checks if the activeCall is not muted before
+    * it calls the mute method of the activeCall and passes the boolean
+    * returned from the call check
+    * */
     public final  void mute() {
         if (activeCall != null) {
             boolean mute = !activeCall.isMuted();
             activeCall.mute(mute);
         }
     }
-
 
 
 
@@ -911,12 +973,6 @@ public class CallTaskActivity extends AppCompatActivity {
         window.addFlags(WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS
                 | WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
 
-        // Get the access token from the share preference as soon as the view is created to ensure
-        // the token used across the activity has been validated by the server
-        preferences = getSharedPreferences("within_preferences", Context.MODE_PRIVATE);
-        accessToken = preferences.getString("access_token", null);
-        Log.d("Shared preference access token", "access token " + accessToken);
-
         // Initialize the views
         initializeViews();
 
@@ -958,6 +1014,16 @@ public class CallTaskActivity extends AppCompatActivity {
 
     }
 
+    @Override
+    protected void onStart() {
+        super.onStart();
+        // Get the access token from the share preference as soon as the view is created to ensure
+        // the token used across the activity has been validated by the server
+        preferences = getSharedPreferences("within_preferences", Context.MODE_PRIVATE);
+        accessToken = preferences.getString("access_token", null);
+        Log.d("Shared preference access token", "access token " + accessToken);
+        registerReceiver();
+    }
 
     @Override
     protected void onResume() {
@@ -965,7 +1031,6 @@ public class CallTaskActivity extends AppCompatActivity {
         if (intent == null){
             intent = getIntent();
         }
-        registerReceiver();
         //startAudioSwitch();
     }
 
@@ -1009,7 +1074,7 @@ public class CallTaskActivity extends AppCompatActivity {
      */
 
     public static class HandleBottomSheet extends BottomSheetDialogFragment {
-        CallTaskActivity callTaskActivity = new CallTaskActivity();
+        //CallTaskActivity callTaskActivity = new CallTaskActivity();
 
 
         // Create an empty constructor
@@ -1045,19 +1110,19 @@ public class CallTaskActivity extends AppCompatActivity {
             Objects.requireNonNull(Objects.requireNonNull(getDialog()).getWindow())
                     .setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
         }
-
-        final View.OnClickListener callControlListener (){
-            return v -> {
-
-                int id = v.getId();
-                if (id == R.id.mute_call){
-                    callTaskActivity.mute();
-                } else if (id == R.id.end_call) {
-                    callTaskActivity.disconnect();
-                } // Todo add more call control functionalities
-
-            };
-        }
+//
+//        final View.OnClickListener callControlListener (){
+//            return v -> {
+//
+//                int id = v.getId();
+//                if (id == R.id.mute_call){
+//                    callTaskActivity.mute();
+//                } else if (id == R.id.end_call) {
+//                    callTaskActivity.disconnect();
+//                } // Todo add more call control functionalities
+//
+//            };
+//        }
     }
 
 

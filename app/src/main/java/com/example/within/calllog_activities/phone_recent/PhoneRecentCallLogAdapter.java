@@ -1,112 +1,324 @@
 package com.example.within.calllog_activities.phone_recent;
 
+
 import android.content.Context;
+import android.content.Intent;
+import android.graphics.Color;
+import android.os.Handler;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
+import android.view.SubMenu;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
+import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.ListView;
+import android.widget.PopupMenu;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
+import androidx.appcompat.widget.Toolbar;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.within.R;
+import com.example.within.calls.CallTaskActivity;
+import com.example.within.helpers.Constants;
+import com.example.within.initial_pages.MainActivity;
+import com.example.within.interfaces.CallLogDisplayListener;
+import com.example.within.profile.AddCreditActivity;
 
-import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
-public class PhoneRecentCallLogAdapter extends ArrayAdapter<PhoneRecentModel> {
+public class PhoneRecentCallLogAdapter extends RecyclerView.Adapter<PhoneRecentCallLogAdapter.RecentViewHolder>{
     private final String TAG = PhoneRecentCallLogAdapter.class.getSimpleName();
-    private final Context context;
-    private ImageView callTypeIcon;
-    private TextView callTypeText, callDateTime, callDuration;
-    private List<PhoneRecentModel> filteredList;
-    private final List<PhoneRecentModel> originalList;
+    private List<PhoneRecentCallModel> phoneRecentModels;
+    private final boolean isEditMode = false;
+    private Handler handler;
+    private Context appContext;
+    private Toolbar callLogToolBar;
+    private ListView callLogList;
+    private static final long LONG_PRESSED = 500;
+    private CallLogDisplayListener callLogListener;
 
 
-    public PhoneRecentCallLogAdapter(@NonNull Context context, List<PhoneRecentModel> list) {
-        super(context, R.layout.adapter_call_log_item);
-        this.context = context;
-        this.filteredList = new ArrayList<>();
-        this.originalList = list;
-        Log.d(TAG, "Original list size " + originalList.size());
-        Log.d(TAG, "Filtered list size " + filteredList.size());
+    public PhoneRecentCallLogAdapter(List<PhoneRecentCallModel> dataList,CallLogDisplayListener callLogListener) {
+        this.phoneRecentModels = dataList;
     }
+
 
     @NonNull
     @Override
-    public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
-        View view = convertView;
-        if (view != null) {
-            LayoutInflater.from(context.getApplicationContext())
-                    .inflate(R.layout.adapter_call_log_item, parent, false);
-        }else {
-            Log.d(TAG, "View is : " + null);
-        }
-
-        callDateTime = view.findViewById(R.id.call_date_time);
-        callTypeText = view.findViewById(R.id.call_type_text);
-        callTypeIcon = view.findViewById(R.id.call_type_icons);
-        callDuration = view.findViewById(R.id.call_log_duration);
-
-
-        PhoneRecentModel currentItem = getItem(position);
-
-
-        Log.d(TAG, "Original list size " + currentItem);
-        if (currentItem != null){
-            String contactNumber = currentItem.getReciepientNumber();
-            String callType = currentItem.getCallType();
-            filteredList = filter(contactNumber, callType);
-
-            Log.d(TAG, "Original list size " + currentItem.getCallType() + currentItem.getRecentDate());
-
-
-            currentItem = filteredList.get(position);
-            Log.d(TAG, "Current filtered list size " +filteredList.size());
-            callDuration.setText(currentItem.getCallDuration());
-            //callTypeIcon.setImageIcon();
-            callTypeText.setText(currentItem.getCallType());
-            callDateTime.setText(currentItem.getRecentDate());
-        }
-
-
-
-
-        return view;
+    public RecentViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.row_phone_call_log, parent, false);
+        handler = new Handler();
+        appContext = view.getContext();
+        return new RecentViewHolder(view);
     }
 
+    @Override
+    public void onBindViewHolder(@NonNull RecentViewHolder holder, int position) {
+        PhoneRecentCallModel model = phoneRecentModels.get(position);
+        // Delete the contact at the current position
+
+        holder.itemView.setTag(model);
+        holder.bind(model);
+
+        // This listener listens for when the user holds down the contact
+        // they want to interact with. it is fired when held down for 2 seconds
+        holder.recipientDetailLayout.setOnLongClickListener(v -> {
+            handler.postDelayed(() -> {
+                holder.openMenu(v, position);
+            }, LONG_PRESSED);
+            return true;
+        });
+        holder.callAgain.setOnClickListener(holder.onClickListener(model, phoneRecentModels));
+        holder.sendCredit.setOnClickListener(holder.onClickListener(model, phoneRecentModels));
+        holder.callLog.setOnClickListener(holder.onClickListener(model, phoneRecentModels));
+
+        // Check if this is the first item or if the initial letter has changed
+        if (position == 0 || !model.getRecentDate().equals(phoneRecentModels.get(position - 1).getRecentDate())) {
+            // Display a separator line or some visual indication (e.g., a header)
+            holder.seperator.setVisibility(View.VISIBLE);
+            holder.seperator.setText(model.getRecentDate()); // Display the initial letter as a header
+        } else {
+            // Hide the separator if it's the same initial letter as the previous item
+            holder.seperator.setVisibility(View.GONE);
+        }
+
+        holder.setCallTypeColors(position);
+
+        holder.recipientDetailLayout.setOnClickListener(v -> {
+            toggleExpansion(position);
+        });
+        holder.expandedContainer.setVisibility(model.isExpanded() ? View.VISIBLE : View.GONE);
+
+    }
+
+    @Override
+    public int getItemCount() {
+        return phoneRecentModels.size();
+    }
 
 
     /*
-    * Helper filter method is used to check the original list passed to the
-    * adapter looking through all and returns model with the same phone number
-    * and call type into the filtered list*/
-    public List<PhoneRecentModel> filter(String number, String callType) {
-        filteredList.clear();
-        for (PhoneRecentModel model: originalList) {
-            if(model.getCallType().equals(callType) &&
-                    model.getReciepientNumber().equals(number)){
-                filteredList.add(model);
-                Log.d(TAG, "Model " + model);
+     * Handle the toggle for the hidden layout of the recent adapter which contains some view
+     * relavant to the user*/
+    private void toggleExpansion(int position) {
+        PhoneRecentCallModel item = phoneRecentModels.get(position);
+        item.setExpanded(!item.isExpanded()); // Toggle expanded state
+
+        // Hide other expanded items
+        for (int i = 0; i < phoneRecentModels.size(); i++) {
+            if (i != position) {
+                phoneRecentModels.get(i).setExpanded(false);
+            }
+        }notifyDataSetChanged(); // Notify adapter about the data change
+    }
+
+
+    public void setCallLogListener(CallLogDisplayListener callLogListener){
+        this.callLogListener = callLogListener;
+    }
+
+
+
+    public class RecentViewHolder extends RecyclerView.ViewHolder {
+        TextView recipientsFirstName, recipientsNumber, callDuration, callType, callDate, seperator;
+        LinearLayout expandedContainer, recipientDetailLayout;
+        ImageButton sendCredit, callAgain, callLog;
+        ImageView initialLetter;
+
+
+
+        public RecentViewHolder(@NonNull View itemView) {
+            super(itemView);
+
+            recipientsFirstName = itemView.findViewById(R.id.reciepient_name);
+            recipientsNumber = itemView.findViewById(R.id.reciepient_phone);
+            callDuration = itemView.findViewById(R.id.call_durations);
+            callDate = itemView.findViewById(R.id.call_date);
+            expandedContainer = itemView.findViewById(R.id.expanded_container);
+            sendCredit = itemView.findViewById(R.id.credit_reciepient_button);
+            callAgain = itemView.findViewById(R.id.call_again);
+            callLog = itemView.findViewById(R.id.call_log_button);
+            initialLetter = itemView.findViewById(R.id.initial_letter);
+            recipientDetailLayout = itemView.findViewById(R.id.reciepient_details_layout);
+            callType = itemView.findViewById(R.id.call_type);
+            seperator = itemView.findViewById(R.id.phone_log_call_divider);
+        }
+
+
+        final View.OnClickListener onClickListener(PhoneRecentCallModel model, List<PhoneRecentCallModel> list){
+            //Create a new instance of  the phone recent model to
+            // get its child objects into the method for use which includes
+            // the callee name and number
+            String recipientNumber = model.getReciepientNumber(); //-- get the recipien number
+            String recipientName = model.getReciepientName(); //--get the recipient name
+            return v -> {
+
+                if (recipientName != null && recipientNumber != null) {
+                    Intent callIntent; //-- Create a new intent with no initialization
+
+                    if (v.getId() == R.id.call_again) {
+                        /* Create a new intent passing the callTaskActivity.class,
+                        * sets the new intent action to ACTION_OUTGOING CALL so the activity knows
+                        * what method to call then the intent is received*/
+                        callIntent = new Intent(appContext, CallTaskActivity.class);
+                        callIntent.setAction(Constants.ACTION_OUTGOING_CALL);
+                        //-- Pass the callee details and start the activity
+                        callIntent.putExtra(Constants.OUTGOING_CALL_RECIPIENT, recipientNumber);
+                        callIntent.putExtra(Constants.RECIPIENT_NAME, recipientName);
+                        appContext.startActivity(callIntent);
+
+                    } else if (v.getId() == R.id.credit_reciepient_button) {
+                        callIntent = new Intent(appContext, AddCreditActivity.class);
+                        callIntent.setAction(Constants.SEND_CREDIT);
+                        callIntent.putExtra(Constants.RECIPIENT_NAME, recipientName);
+                        callIntent.putExtra(Constants.OUTGOING_CALL_RECIPIENT, recipientNumber);
+                        appContext.startActivity(callIntent);
+
+                    } else if (v.getId() == R.id.call_log_button) {
+                        handleCallLogListDialog(model, phoneRecentModels);
+                    }
+                }
+            };
+        }
+
+
+        /*
+         * Helper method which is used to display the call log bottom sheet when clicked.
+         * the sheet contains more details about the calls made from that phone number
+         * during a period of time*/
+        final void handleCallLogListDialog(PhoneRecentCallModel model, List<?> list) {
+
+            if (callLogListener != null){
+                Log.d(TAG, " Call log listener " + callLogListener);
+                callLogListener.displayCallLog(model, list);
             }
         }
 
-        notifyDataSetChanged();
-        return filteredList;
-    }
 
-    @NonNull
-    @Override
-    public int getCount() {
-        return filteredList.size();
-    }
 
-    @Nullable
-    @Override
-    public PhoneRecentModel getItem(int position) {
-        return filteredList.get(position);
+        /**
+         * Listener method used to listen to click on the popped up item menus
+         * when the user clicks a view, the method tracks the id of the view and performs
+         * the task.
+         * @param position  is used to map the position of the view to the datalist to avoid
+         * code corruption*/
+        final MenuItem.OnMenuItemClickListener menuItemClickListener(int position, PhoneRecentCallModel model, View view){
+            Context context = view.getContext(); // Get the current context
+            return new MenuItem.OnMenuItemClickListener() {
+                @Override
+                public boolean onMenuItemClick(@NonNull MenuItem item) {
+
+                    if (item.getItemId() == R.id.delete_number){
+                        deleteRecent(position);
+                        // The user has asked to edit the number in the dial-pad
+                        // before placing the call
+                        // create a new intent
+                    } else if (item.getItemId() == R.id.edit_number) {
+                        Intent editIntent = new Intent(context, MainActivity.class);
+                        editIntent.putExtra("phone_number", model.getReciepientNumber());
+                        editIntent.setAction(Constants.EDIT_BEFORE_CALL); //Set a flag for the receiving intent
+                        context.startActivity(editIntent); // Start the intent activity or fragment
+                    }
+                    return false;
+                }
+            };
+        }
+
+        // Method will open a menu when fired. the menu contains items for user to delete
+        // a perform some codes on a phone number in the list
+        private void openMenu(View view, int position) {
+            if (view != null) {
+                Context context = view.getContext();
+
+                PhoneRecentCallModel item = phoneRecentModels.get(position);
+                PopupMenu menu = new PopupMenu(context, recipientDetailLayout);
+                menu.getMenuInflater().inflate(R.menu.onhold_calllog_menu, menu.getMenu());
+
+                // Get the item for the number in focus and checks to ensure it is valid
+                // before attaching the recipient in focus phone number to it as the title
+                MenuItem numberInFocus = menu.getMenu().findItem(R.id.number_in_focus);
+                if (numberInFocus != null) {
+                    SubMenu subMenu = numberInFocus.getSubMenu(); // Get the submenu
+                    if (subMenu != null) {
+                        MenuItem copyNumber = subMenu.findItem(R.id.copy_number);
+                        MenuItem editNumber = subMenu.findItem(R.id.edit_number);
+                        MenuItem deleteNumber = subMenu.findItem(R.id.delete_number);
+                        MenuItem blockNumber = subMenu.findItem(R.id.block_number);
+
+                        // Set the title of the menu to the phone number in focus
+                        numberInFocus.setTitle(item.getReciepientNumber());
+
+                        deleteNumber.setOnMenuItemClickListener(menuItemClickListener(position, item, view));
+                        editNumber.setOnMenuItemClickListener(menuItemClickListener(position,item,view));
+                    }
+                }
+
+                menu.show();
+            }
+        }
+
+        /**
+         * This method sets the call type colors based on the type of call returned from
+         * the call log which has been passed from the parent fragments
+         * @param position  is used to map the position of the data in the list
+         * to avoid manipulating random data*/
+        private void setCallTypeColors(int position){
+            PhoneRecentCallModel model = phoneRecentModels.get(position);
+            String callTypes = model.getCallType();
+            if (callTypes != null){
+                switch (callTypes){
+                    case "missed":
+                    case "busy":
+                        callType.setTextColor(Color.RED);
+                        break;
+                    case "incoming":
+                        callType.setTextColor(Color.GREEN);
+                        break;
+                    case "out going":
+                        callType.setTextColor(Color.BLUE);
+                        break;
+                    case "declined":
+                        callType.setTextColor(Color.YELLOW);
+                        break;
+                }
+            }
+        }
+
+
+        /*
+         * Handles the ability for users to delete a contact from their recent call list.
+         * gets the model at the given position and use a loop to iterate through the dataList
+         * calling the remove method on the list to remove the item.
+         */
+        private void deleteRecent(int position) {
+            PhoneRecentCallModel item = phoneRecentModels.get(position);
+            // Hide other expanded items
+            for (int i = 0; i < phoneRecentModels.size(); i++) {
+                if (i != position) {
+                    phoneRecentModels.remove(item);
+                }
+            }
+            notifyDataSetChanged();
+        }
+
+
+
+
+        public void bind (PhoneRecentCallModel model){
+            recipientsFirstName.setText(model.getReciepientName());
+            recipientsNumber.setText(model.getReciepientNumber());
+            callDuration.setText(model.getCallDuration());
+            initialLetter.setImageResource(model.getIntialLetter());
+            callType.setText(model.getCallType());
+            callDuration.setText(model.getCallDuration());
+            callDate.setText(model.getRecentDate());
+
+        }
     }
 }

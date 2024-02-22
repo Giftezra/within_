@@ -17,152 +17,132 @@
         android:gravity="center_horizontal"
         app:menu="@menu/profile_menu"/>
 
-
-    <ScrollView
-        android:id="@+id/scrollview"
+    <LinearLayout
+        android:id="@+id/watch_ads_layout"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_below="@+id/profile_title"
-        android:layout_alignParentBottom="true"
-        android:layout_marginTop="11dp"
-        android:layout_marginBottom="-11dp"
-        android:contentDescription="Scroll view">
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:elevation="@dimen/layout_elevation"
+        android:padding="5dp"
+        android:layout_below="@+id/profile_title">
 
-        <LinearLayout
+
+
+        <ImageButton
+            android:id="@+id/watch_ads"
+            style="@style/Widget.Material3.Button.TonalButton.Icon"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:src="@drawable/ic_video_ads"
+            android:contentDescription="@string/watch_ads"
+            android:padding="30dp"
+            android:theme="?attr/buttonStyle" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:text="@string/watch_ads"
+            android:layout_gravity="center"
+            android:textSize="@dimen/text_size_small"/>
+    </LinearLayout>
+
+    <!--Linear layout for the setting page-->
+    <LinearLayout
+        android:id="@+id/setting_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:elevation="@dimen/layout_elevation"
+        android:layout_below="@+id/watch_ads_layout"
+        android:padding="5dp">
+
+        <ImageButton
+            android:id="@+id/settings"
+            style="@style/Widget.Material3.Button.TonalButton.Icon"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="50dp"
-            android:orientation="vertical"
-            android:padding="5dp">
+            android:src="@drawable/ic_settings"
+            android:contentDescription="@string/settings"
+            android:padding="30dp"
+            android:textSize="@dimen/text_size_small" />
 
-            <!-- Rest of your LinearLayout content -->
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/settings"
+            android:layout_gravity="center"
+            android:textSize="@dimen/text_size_small"/>
+
+    </LinearLayout>
 
 
-            <!-- Your other layout elements -->
 
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_horizontal"
-                android:layout_marginTop="40dp"
-                android:orientation="horizontal">
+    <!--Linear layout for the setting page-->
+    <LinearLayout
+        android:id="@+id/add_credit_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:elevation="@dimen/layout_elevation"
+        android:layout_below="@+id/setting_layout"
+        android:padding="5dp">
 
-                <ImageView
-                    android:id="@+id/ads_ic"
-                    android:layout_width="100dp"
-                    android:layout_height="match_parent"
-                    android:layout_marginStart="10dp"
-                    android:layout_marginEnd="20dp"
-                    android:layout_weight="1"
-                    android:scaleType="fitCenter"
-                    android:src="@drawable/ic_video_ads" />
 
-                <Button
-                    android:id="@+id/watch_ads"
-                    style="@style/Widget.Material3.Button.TextButton"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="20dp"
-                    android:layout_marginEnd="10dp"
-                    android:layout_weight="1"
-                    android:text="Ads for credit"
-                    android:textSize="@dimen/text_size_small"
-                    android:theme="?attr/buttonStyle" />
-            </LinearLayout>
+        <ImageButton
+            android:id="@+id/add_credit_btn"
+            style="@style/Widget.Material3.Button.TonalButton.Icon"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_add_credit"
+            android:contentDescription="@string/send_credit_to_user"
+            android:padding="30dp" />
 
-            <!-- Repeat the pattern for other LinearLayout elements -->
 
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_gravity="center_horizontal"
-                android:layout_marginTop="40dp"
-                android:orientation="horizontal"
-         >
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/top_up_account"
+            android:layout_gravity="center"
+            android:textSize="@dimen/text_size_small"/>
 
-                <ImageView
-                    android:id="@+id/settings_ic"
-                    android:layout_width="100dp"
-                    android:layout_height="match_parent"
-                    android:layout_marginStart="10dp"
-                    android:layout_marginEnd="20dp"
-                    android:layout_weight="1"
-                    android:scaleType="fitCenter"
-                    android:src="@drawable/ic_settings" />
+    </LinearLayout>
 
-                <Button
-                    android:id="@+id/settings"
-                    style="@style/Widget.Material3.Button.TextButton"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="20dp"
-                    android:layout_marginEnd="10dp"
-                    android:layout_weight="1"
-                    android:text="Settings"
-                    android:textSize="@dimen/text_size_small" />
-            </LinearLayout>
 
-            <!-- Linear layout for the add credit option -->
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_gravity="center_horizontal"
-                android:layout_marginTop="40dp"
-                android:orientation="horizontal">
-                <!--Image view hold the icons-->
-                <ImageView
-                    android:id="@+id/credit_ic"
-                    android:layout_width="100dp"
-                    android:layout_height="match_parent"
-                    android:layout_marginStart="10dp"
-                    android:layout_marginEnd="20dp"
-                    android:layout_weight="1"
-                    android:scaleType="fitCenter"
-                    android:src="@drawable/ic_add_credit" />
+    <!--Linear layout for the setting page-->
+    <LinearLayout
+        android:id="@+id/credit_others_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:elevation="@dimen/layout_elevation"
+        android:layout_below="@+id/add_credit_layout"
+        android:padding="5dp">
 
-                <Button
-                    android:id="@+id/add_credit_btn"
-                    style="@style/Widget.Material3.Button.TextButton"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="20dp"
-                    android:layout_marginEnd="10dp"
-                    android:layout_weight="1"
-                    android:text="Add credit"
-                    android:textSize="@dimen/text_size_small" />
-            </LinearLayout>
 
-            <!-- Linear layout hold the views for the credit others option -->
-            <LinearLayout
-                android:id="@+id/credit_others_layout"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_gravity="center_horizontal"
-                android:layout_marginTop="40dp"
-                android:orientation="horizontal">
 
-                <ImageView
-                    android:id="@+id/credit_others_ic"
-                    android:layout_width="100dp"
-                    android:layout_height="match_parent"
-                    android:layout_marginStart="10dp"
-                    android:layout_marginEnd="20dp"
-                    android:layout_weight="1"
-                    android:scaleType="fitCenter"
-                    android:src="@drawable/ic_invite" />
+        <ImageButton
+            android:id="@+id/credit_others"
+            style="@style/Widget.Material3.Button.TonalButton.Icon"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="30dp"
+            android:src="@drawable/ic_person"
+            android:contentDescription="@string/send_credit_to_user"
+            android:textSize="@dimen/text_size_small" />
 
-                <Button
-                    android:id="@+id/credit_others"
-                    style="@style/Widget.Material3.Button.TextButton"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="20dp"
-                    android:layout_marginEnd="10dp"
-                    android:layout_weight="1"
-                    android:text="Credit Others"
-                    android:textSize="@dimen/text_size_small" />
-            </LinearLayout>
-        </LinearLayout>
-    </ScrollView>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/send_credit_to_user"
+            android:layout_gravity="center"
+            android:textSize="@dimen/text_size_small"/>
+
+    </LinearLayout>
+
+
+
+
 </RelativeLayout>
 

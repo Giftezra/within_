@@ -1,36 +1,111 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <!--Set the menu item for the setting toolbar. add an icon which will
+    be used to close the settings when clicked-->
+    <item
+        android:id="@+id/settings_toolbar"
+        android:title="@string/settings"
+        android:icon="@drawable/ic_cancel" />
+
+    <item
+        android:id="@+id/space"
+        android:title=""
+        app:actionViewClass="android.widget.Space"/>
+
+
+    <group android:visible="true">
+        <item
+            android:id="@+id/hide_number"
+            android:title="@string/hide_number"
+            android:contentDescription="@string/hide_number"
+            app:actionViewClass="com.google.android.material.switchmaterial.SwitchMaterial"
+            app:showAsAction="ifRoom"/>
+
+    </group>
+
+    <!--Groups the item menus in here for better organisations..
+    this part of the menu contains the items for network connectivity-->
     <group>
         <item
-            android:id="@+id/about"
-            android:title="About"
-            android:icon="@drawable/ic_info"
-            app:actionViewClass="android.widget.TextView"
-            app:showAsAction="ifRoom">
-        </item>
+            android:id="@+id/connections"
+            android:title="@string/network"
+            android:contentDescription="@string/network">
 
-        <item
-            android:id="@+id/mobile_number"
-            android:title="Mobile Number: "
-            android:icon="@drawable/ic_phone"
-            app:actionViewClass="android.widget.TextView"
-            app:showAsAction="ifRoom"
-            >
-        </item>
+            <menu>
+                <!--Item used for the wifi connectivity check. turns on the users permission ton use the wifi
+                state when the view class is activated. show action always-->
+                <item
+                    android:id="@+id/turn_on_wifi_usage"
+                    android:title="@string/wifi_connections"
+                    android:icon="@drawable/ic_wifi"
+                    android:titleCondensed="@string/network"
+                    app:showAsAction="always"
+                    app:actionViewClass="com.google.android.material.switchmaterial.SwitchMaterial"/>
 
-        <item
-            android:id="@+id/customer_email"
-            android:title="Email: "
-            android:icon="@drawable/ic_email"
-            app:actionViewClass="android.widget.TextView"
-            app:showAsAction="ifRoom">
+
+                <item
+                    android:id="@+id/turn_on_data_usage"
+                    android:title="@string/enable_mobile_network"
+                    android:icon="@drawable/ic_wifi"
+                    android:titleCondensed="@string/network"
+                    android:contentDescription="@string/enable_mobile_network"
+                    app:showAsAction="always"
+                    app:actionViewClass="com.google.android.material.switchmaterial.SwitchMaterial"/>
+
+
+            </menu>
         </item>
     </group>
 
-
+    <!--This part of the grouped menu contains the data for the users details
+    which includes the email and phone number-->
     <group>
+        <item
+            android:id="@+id/user_details_menu"
+            android:title="@string/contact_details">
+
+            <menu>
+                <!--The users details is displayed using the action view class programmatically
+                by implementing the action view classes in the items. the show action if room is
+                used to ensure the display does not disrupt the screens view but only display when
+                the screen has enough rooom-->
+                <item
+                    android:id="@+id/email_menu"
+                    android:title="@string/email"
+                    app:actionViewClass="android.widget.TextView"
+                    app:showAsAction="ifRoom"
+                    android:icon="@drawable/ic_email"/>
+
+                <item
+                    android:id="@+id/phone_number_menu"
+                    android:title="@string/phone_number"
+                    app:actionViewClass="android.widget.TextView"
+                    app:showAsAction="ifRoom"
+                    android:icon="@drawable/ic_phone"/>
+
+                <item
+                    android:id="@+id/notify_user_email_menu"
+                    android:title="Receive email updates"
+                    app:actionViewClass="com.google.android.material.switchmaterial.SwitchMaterial"
+                    app:showAsAction="ifRoom"
+                    android:icon="@drawable/ic_notification"/>
+
+            </menu>
+        </item>
 
     </group>
+
+    <item
+        android:id="@+id/about_menu"
+        android:title="@string/about"
+        android:icon="@drawable/ic_info"/>
+
+
+    <item
+        android:id="@+id/delete_account_menu"
+        android:title="@string/delete_account"
+        android:icon="@drawable/ic_delete"/>
 
 </menu>

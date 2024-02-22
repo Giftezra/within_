@@ -102,6 +102,22 @@
     <string name="app_log">App log</string>
     <string name="end_call">End call\n</string>
     <string name="send_credit_to_user">send credit to user</string>
+    <string name="app_version">1.08.12.2012</string>
+    <string name="hide_number">Hide number</string>
+    <string name="network">Network Connectivity</string>
+    <string name="wifi_connections">Wifi Connections</string>
+    <string name="settings">Settings</string>
+    <string name="enable_mobile_network">Enable Mobile Network</string>
+    <string name="contact_details">Contact Details</string>
+    <string name="about">About</string>
+    <string name="delete_account">Delete account</string>
+    <string name="cancel">Cancel</string>
+    <string name="watch_ads">Watch ads for top-up</string>
+    <string name="credit_history">Credit history</string>
+    <string name="frequent">Frequent</string>
+    <string name="add">Add</string>
+    <string name="top_up_account">Top-up Account</string>
+    <string name="search_messages">Search messages</string>
 
 
     <!-- res/values/strings.xml -->

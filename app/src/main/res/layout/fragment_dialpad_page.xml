@@ -8,48 +8,95 @@
     android:id="@+id/dialpad_layout">
 
 
-    <!--Layout hold the text view for the layout title-->
-    <androidx.appcompat.widget.Toolbar
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        app:title="Dial Pad"
-        android:id="@+id/dialpad_toolbar"
-        android:gravity="center_horizontal"/>
-
     <LinearLayout
-        android:id="@+id/favourites_layout"
+        android:id="@+id/favourite_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:padding="10dp"
-        android:layout_below="@+id/dialpad_toolbar">
+        android:orientation="vertical"
+        android:layout_alignParentTop="true"
+        android:layout_marginTop="10dp">
 
-        <TextView
-            android:layout_width="0dp"
-            android:layout_weight="0.5"
+        <LinearLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Favourites"
-            android:id="@+id/favourites"
-            android:textStyle="bold"
-            android:textSize="20sp"
-            android:layout_marginStart="5dp" />
+            android:orientation="horizontal">
 
-        <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:src="@drawable/ic_favourites"
-            android:layout_marginEnd="5dp"
-            android:padding="5dp"
-            android:layout_marginTop="5dp"/>
+<!--Add two view for the header and the add text which will be clickable-->
+            <TextView
+                android:id="@+id/favourite_text"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="wrap_content"
+                android:text="Favourites"
+                android:textStyle="normal"
+                android:layout_marginStart="5dp"/>
+
+            <TextView
+                android:id="@+id/add_favourite"
+                android:layout_width="0dp"
+                android:layout_weight="0.3"
+                android:layout_height="wrap_content"
+                android:text="@string/add"
+                android:textStyle="normal"
+                android:layout_marginStart="5dp"
+                android:gravity="center"
+                android:enabled="true"/>
+        </LinearLayout>
+
+
+        <!--This view is used to display the users favourite contacts which is selected by the
+        user when they click to add-->
+        <HorizontalScrollView
+            android:id="@+id/favourite_scrollView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:orientation="horizontal" >
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/favourite_recycler"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"/>
+
+            </LinearLayout>
+        </HorizontalScrollView>
+
+
+
 
     </LinearLayout>
 
-    <ListView
+
+
+
+
+
+<!--    This layout contains the xml for the frequently called contacts on both the app
+and the users retrieved call log-->
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/favourite_list"
-        android:padding="5dp"
-        android:layout_below="@+id/favourites_layout" />
+        android:orientation="vertical"
+        android:layout_below="@+id/favourite_layout">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/frequent"
+            android:padding="10dp"/>
+
+
+        <!--Recycler contains the list of frequently called number-->
+        <androidx.recyclerview.widget.RecyclerView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/favourite_list"
+            android:padding="5dp" />
+
+    </LinearLayout>
 
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton

@@ -25,6 +25,7 @@ import androidx.work.WorkInfo;
 import androidx.work.WorkManager;
 
 import com.example.within.R;
+import com.example.within.calllog_activities.CallLogger;
 import com.example.within.workers.GenericCallAndContactWorker;
 
 import java.util.ArrayList;
@@ -42,7 +43,6 @@ public class ContactFragment extends Fragment {
 
     SearchView searchBar;
     ProgressBar progressBar;
-    TextView userBalance, userCurrency;
 
 
 
@@ -184,7 +184,7 @@ public class ContactFragment extends Fragment {
                         if (workInfo.getState() == WorkInfo.State.SUCCEEDED){
                             //--Check for the success state before getting th static method to return the
                             //-- users generated call log
-                            contactModels = GenericCallAndContactWorker.getContactModelList();
+                            contactModels = CallLogger.getContactModelList();
                             contactAdapter = new ContactAdapter(contactModels);
                             contactRecycler.setAdapter(contactAdapter);
                             contactAdapter.notifyDataSetChanged();

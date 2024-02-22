@@ -74,9 +74,8 @@
                     android:textSize="@dimen/text_size_small"
                     android:hint="30s" />
             </LinearLayout>
-
-
         </LinearLayout>
+
 
     </LinearLayout>
 
@@ -86,9 +85,9 @@
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         android:layout_below="@+id/reciepient_details_layout"
-        android:visibility="visible"
+        android:visibility="gone"
         android:background="@drawable/hidden_layout"
-        android:padding="15dp">
+        android:padding="10dp">
 
 
         <ImageButton
@@ -138,7 +137,17 @@
             android:contentDescription="reciepient call log"
             style="@style/Widget.Material3.Button.ElevatedButton.Icon"/>
 
-
     </LinearLayout>
+
+    <TextView
+        android:id="@+id/app_log_call_divider"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/expanded_container"
+        android:hint="Today"
+        android:layout_marginStart="5dp"/>
+
+
+
 
 </RelativeLayout>

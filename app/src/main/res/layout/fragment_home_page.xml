@@ -12,10 +12,11 @@
     <androidx.appcompat.widget.Toolbar
         android:id="@+id/home_bar"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="@dimen/toolbar_height"
         android:layout_alignParentTop="true"
         app:title="Home"
-        app:titleTextColor="@color/black" />
+        app:titleTextColor="@color/black"
+        android:gravity="center"/>
 
     <!--Include the balance nav-->
     <include
